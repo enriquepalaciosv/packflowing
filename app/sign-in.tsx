@@ -1,20 +1,34 @@
-import { router } from 'expo-router';
-import { Text, View } from 'react-native';
-import { useSession } from '../contexts/authentication';
+import { useRouter } from "expo-router";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Button } from "react-native-paper";
 
-export default function SignIn() {
-  const { signIn } = useSession();
+const LoginScreen = () => {
+  const router = useRouter();
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text
-        onPress={() => {
-          signIn();
-          // Navigate after signing in. You may want to tweak this to ensure sign-in is
-          // successful before navigating.
-          router.replace('/');
-        }}>
-        Sign In
-      </Text>
+    <View style={styles.container}>
+      <Button
+        mode="outlined"
+        onPress={() => router.push("/register")}
+        style={styles.button}
+      >
+        Registrarse
+      </Button>
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#f5f5f5",
+  },
+  button: {
+    borderRadius: 10,
+    marginTop: 10,
+  },
+});
+
+export default LoginScreen;
