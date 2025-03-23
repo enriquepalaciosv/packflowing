@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { auth, database } from "../../index";
 import generateLockerCode from "../../../utils/generateLockedCode";
 import { Toast } from "toastify-react-native";
@@ -13,6 +13,13 @@ interface User {
     phone: string;
 }
 
+async function isLockerCodeUnique(lockerCode: string) {
+    const usersRef = collection(database, "users");
+    const q = query(usersRef, where("lockerCode", "==", lockerCode));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.empty; // true si el código es único
+}
+
 export async function registerUserService(user: User) {
     const { email, password, name, lastName, phone } = user;
 
@@ -22,8 +29,10 @@ export async function registerUserService(user: User) {
         const uid = userCredential.user.uid;
 
         // Generar código único de casillero
-        const lockerCode = generateLockerCode(name, lastName);
-
+        let lockerCode = generateLockerCode(name, lastName);
+        while (!(await isLockerCodeUnique(lockerCode))) {
+            lockerCode = generateLockerCode(name, lastName); // Regenerar si ya existe
+        }
         // Guardar usuario en Firestore
         const usersRef = collection(database, "users");
         const userCreated = await addDoc(usersRef, {
@@ -35,10 +44,9 @@ export async function registerUserService(user: User) {
             lockerCode
         });
 
-        console.log("Usuario registrado con éxito:", userCreated);
+        Toast.success("Usuario registrado con éxito")
         return userCredential.user;
     } catch (error) {
-        console.log(typeof error, Object.keys(error), "******", error.code)
         Toast.error(getCustomErrorMessage(error.code))
         return null
     }
