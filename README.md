@@ -73,39 +73,12 @@ Correr el proyecto
 Se puede probar la app, desde la aplicación Expo Go, disponible en App Store para iOS o desde Play Store para Android
 
 Una vez dentro de Expo Go, se escanea el código QR y listo!
+
 ## Splash Image
 
 Para modificar la imagen de Splash, simplemente hay que reemplazar la imagen **/assets/images/splash-icon.png** por la imagen que desea 
 
 ó
 
-Si desea agregar otra imagen, sin eliminar la anterior. Hay que modificar el archivo **app.json**
+Si desea agregar otra imagen, sin eliminar la anterior. Hay que modificar el archivo **app/_layout**. **useSplashAnimation**, este hook maneja la animación (duración, delay, etc.) 
 
-Buscar la propiedad **plugins**, hay un array con dos elementos, se debe modificar la propiedad **image** del segundo objeto
-
-```
-...
-"plugins": [
-      ...
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "resizeMode": "cover",
-          "backgroundColor": "#ffffff"
-        }
-      ],
-...
-```
-
-Se puede modificar el color de fondo, y la propiedad **resizeMode** esta en **cover** para que ocupe todo el ancho de la pantalla ó establecer un ancho especifico con la propiedad **imageWidth** donde recibe un número. Por ejemplo 
-
-```
-"expo-splash-screen",
-{
-    "image": "./assets/images/splash-icon.png",
-    "resizeMode": "contain",
-    "imagewidth": 500,
-    "backgroundColor": "#ffffff"
-}
-```
