@@ -13,8 +13,11 @@ export default function useRegisterFormik() {
         name: Yup.string().required("El nombre es obligatorio"),
         lastName: Yup.string().required("El apellido es obligatorio"),
         email: Yup.string().email("Correo inválido").required("El correo es obligatorio"),
+        countryCode: Yup.string()
+            .matches(/^\+\d{1,4}$/, "Prefijo inválido")
+            .required("El prefijo es obligatorio"),
         phone: Yup.string()
-            .matches(/^\+\d{1,3}\d{7,12}$/, "Número de teléfono inválido")
+            .matches(/^\d{7,12}$/, "Número de teléfono inválido")
             .required("El teléfono es obligatorio"),
         password: Yup.string()
             .min(6, "La contraseña debe tener al menos 6 caracteres")
@@ -27,6 +30,7 @@ export default function useRegisterFormik() {
             name: "",
             lastName: "",
             email: "",
+            countryCode: "", 
             phone: "",
             password: "",
         },

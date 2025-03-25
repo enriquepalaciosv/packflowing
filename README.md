@@ -82,3 +82,57 @@ Para modificar la imagen de Splash, simplemente hay que reemplazar la imagen **/
 
 Si desea agregar otra imagen, sin eliminar la anterior. Hay que modificar el archivo **app/_layout**. **useSplashAnimation**, este hook maneja la animación (duración, delay, etc.) 
 
+```
+"expo-splash-screen",
+{
+    "image": "./assets/images/splash-icon.png",
+    "resizeMode": "contain",
+    "imagewidth": 500,
+    "backgroundColor": "#ffffff"
+}
+```
+
+## Autenticación
+
+Primero se debe habilitar Firebase Auth, verificar que en Métodos de Acceso se encuentre habilitado solo el ingreso con email y contraseña
+
+Luego, habilitar la base de datos Firestore (no hace falta crear ninguna colección, se hace la conexión desde el servicio y se crean las tablas necesarias) 
+
+### Registro 
+
+Para el registro se piden los siguientes datos: 
+```
+{
+  name, 
+  lastName, 
+  email, 
+  countryCode, 
+  phone,
+  password // Como mínimo 6 dígitos
+}
+```
+Todos estos campos son requeridos
+
+Este servicio, primero registra al usuario con email y contraseña dentro de Firebase Auth, este registro devuelve un **uid**
+
+Luego tomando ese **uid** se inserta a Firestore un nuevo usuario con los siguiente campos
+
+```
+{
+  name: string,
+  lastName: string,
+  email: string,
+  countryCode: string, // Por ejemplo +505 | +1
+  phone: number,
+  lockerCode: string
+}
+```
+
+Donde **lockedCode** es generado automaticamente con las iniciales del nombre y apellido, y seis números aleatorios únicos. Por ejemplo
+
+Para el usuario "Enrique Palacios"
+```
+lockedCode = EP-123456
+```
+
+Antes de hacer un ingreso a la base de datos, se valida que el campo generado **lockedCode** no exista, en caso de que haya otro usuario registrado con ese mismo **lockedCode** se genera un nuevo código único
