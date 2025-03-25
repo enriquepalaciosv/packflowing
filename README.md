@@ -82,16 +82,6 @@ Para modificar la imagen de Splash, simplemente hay que reemplazar la imagen **/
 
 Si desea agregar otra imagen, sin eliminar la anterior. Hay que modificar el archivo **app/_layout**. **useSplashAnimation**, este hook maneja la animación (duración, delay, etc.) 
 
-```
-"expo-splash-screen",
-{
-    "image": "./assets/icon.png",
-    "resizeMode": "contain",
-    "imagewidth": 500,
-    "backgroundColor": "#ffffff"
-}
-```
-
 ## Autenticación
 
 Primero se debe habilitar Firebase Auth, verificar que en Métodos de Acceso se encuentre habilitado solo el ingreso con email y contraseña
@@ -136,3 +126,15 @@ lockedCode = EP-123456
 ```
 
 Antes de hacer un ingreso a la base de datos, se valida que el campo generado **lockedCode** no exista, en caso de que haya otro usuario registrado con ese mismo **lockedCode** se genera un nuevo código único
+
+## Login
+
+Para el login, se pide email y contraseña
+
+Este servicio, realiza el login, en el caso de que inicie sesión con éxito, guarda la información en localStorage (web) ó SecureStore (movil)
+
+Si el email es incorrecto, o no existe o si la contraseña es incorrecta, arroja un error generico 
+
+```
+Email o contraseña incorrecta
+```

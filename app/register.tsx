@@ -20,6 +20,7 @@ export default function RegisterScreen() {
     } = useRegisterFormik();
     return (
         <View style={styles.container}>
+
             <Image style={styles.logo} source={require("../assets/icon.png")} />
 
             <Title style={styles.title}>Regístrate</Title>
