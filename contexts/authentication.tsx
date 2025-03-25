@@ -1,10 +1,11 @@
-import { useContext, createContext, type PropsWithChildren } from 'react';
-import { useStorageState } from '../hooks/useStorageState';
+import { useContext, createContext, type PropsWithChildren } from "react";
+import { useStorageState } from "../hooks/useStorageState";
+import { User } from "firebase/auth";
 
 const AuthContext = createContext<{
-  signIn: () => void;
+  signIn: (user: User) => void;
   signOut: () => void;
-  session?: string | null;
+  session?: User | null;
   isLoading: boolean;
 }>({
   signIn: () => null,
@@ -16,9 +17,9 @@ const AuthContext = createContext<{
 // This hook can be used to access the user info.
 export function useSession() {
   const value = useContext(AuthContext);
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== "production") {
     if (!value) {
-      throw new Error('useSession must be wrapped in a <SessionProvider />');
+      throw new Error("useSession must be wrapped in a <SessionProvider />");
     }
   }
 
@@ -26,20 +27,21 @@ export function useSession() {
 }
 
 export function SessionProvider({ children }: PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState('session');
+  const [[isLoading, session], setSession] = useStorageState("session");
 
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
-          setSession('xxx');
+        signIn: (user: User) => {
+          setSession(user);
         },
         signOut: () => {
           setSession(null);
         },
         session,
         isLoading,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
