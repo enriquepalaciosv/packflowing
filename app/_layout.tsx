@@ -1,8 +1,30 @@
+import { useFonts } from 'expo-font';
 import { Slot } from 'expo-router';
-import { SessionProvider } from '../contexts/authentication';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, View } from "react-native";
 import ToastManager from 'toastify-react-native';
+import { SessionProvider } from '../contexts/authentication';
+import { useSplashAnimation } from '../hooks/useSplashAnimation';
 
 export default function Root() {
+  const { opacity, isReady } = useSplashAnimation();
+  
+  if (!isReady) {
+    return (
+      <View style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#ffffff",
+      }}>
+        <Animated.Image
+          source={require("../assets/images/splash-icon.png")}
+          style={{ opacity, width: 300, height: 300 }}
+        />
+      </View>
+    );
+  }
+
   return (
     <SessionProvider>
       <ToastManager
