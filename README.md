@@ -76,7 +76,7 @@ Una vez dentro de Expo Go, se escanea el código QR y listo!
 
 ## Splash Image
 
-Para modificar la imagen de Splash, simplemente hay que reemplazar la imagen **/assets/images/splash-icon.png** por la imagen que desea 
+Para modificar la imagen de Splash, simplemente hay que reemplazar la imagen **/assets/icon.png** por la imagen que desea 
 
 ó
 
@@ -85,7 +85,7 @@ Si desea agregar otra imagen, sin eliminar la anterior. Hay que modificar el arc
 ```
 "expo-splash-screen",
 {
-    "image": "./assets/images/splash-icon.png",
+    "image": "./assets/icon.png",
     "resizeMode": "contain",
     "imagewidth": 500,
     "backgroundColor": "#ffffff"
