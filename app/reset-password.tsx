@@ -4,6 +4,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { Button, Title } from "react-native-paper";
 import InputFormik from "../components/InputFormik";
 import useLoginFormik from "../hooks/useLoginFormik";
+import useResetPasswordFormik from "../hooks/useResetPasswordFormik";
 
 const LoginScreen = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const LoginScreen = () => {
     handleChange,
     handleBlur,
     handleSubmit,
-  } = useLoginFormik();
+  } = useResetPasswordFormik();
   return (
     <View style={styles.container}>
       <Image
@@ -25,7 +26,7 @@ const LoginScreen = () => {
         source={require("../assets/images/react-logo.png")}
       />
 
-      <Title style={styles.title}>Ingresar al Sistema</Title>
+      <Title style={styles.title}>Recuperar contraseña</Title>
 
       <View style={styles.form}>
         <InputFormik
@@ -40,24 +41,6 @@ const LoginScreen = () => {
           autoCapitalize="none"
         />
 
-        <InputFormik
-          label="Contraseña"
-          name="password"
-          value={values.password}
-          error={touched.password && !!errors.password}
-          errorText={errors.password}
-          handleChange={handleChange("password")}
-          handleBlur={handleBlur("password")}
-          secureTextEntry
-        />
-
-        <Text
-          onPress={() => router.push("/reset-password")}
-          style={styles.resetPassword}
-        >
-          ¿Olvidaste tu contraseña?
-        </Text>
-
         <Button
           mode="contained"
           onPress={(e: any) => handleSubmit(e)}
@@ -67,16 +50,16 @@ const LoginScreen = () => {
           buttonColor="#0f0f0f"
           textColor="white"
         >
-          Ingresar
+          Enviar instrucciones
         </Button>
 
         <View style={styles.footer}>
-          <Text>Si no tienes cuenta, registrate </Text>
+          <Text>Volver a </Text>
           <Text
-            onPress={() => router.push("/register")}
+            onPress={() => router.push("/sign-in")}
             style={styles.footerLink}
           >
-            aquí
+            iniciar sesión
           </Text>
         </View>
       </View>
@@ -106,9 +89,6 @@ const styles = StyleSheet.create({
   form: {
     paddingHorizontal: 10,
     gap: 10,
-  },
-  resetPassword: {
-    textDecorationLine: "underline",
   },
   button: {
     fontWeight: 900,
