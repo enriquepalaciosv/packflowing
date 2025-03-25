@@ -96,7 +96,7 @@ Si desea agregar otra imagen, sin eliminar la anterior. Hay que modificar el arc
 
 Primero se debe habilitar Firebase Auth, verificar que en Métodos de Acceso se encuentre habilitado solo el ingreso con email y contraseña
 
-Luego, habilitar la base de datos Firestore, una vez dentro de la base de datos crear una tabla llamada **users** 
+Luego, habilitar la base de datos Firestore (no hace falta crear ninguna colección, se hace la conexión desde el servicio y se crean las tablas necesarias) 
 
 ### Registro 
 
