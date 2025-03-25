@@ -20,14 +20,10 @@ export default function RegisterScreen() {
     } = useRegisterFormik();
     return (
         <View style={styles.container}>
-            <Image
-                width={30}
-                height={30}
-                style={styles.logo}
-                source={require("../assets/images/react-logo.png")}
-            />
-        
-            <Title style={styles.title}>Registro de Usuario</Title>
+
+            <Image style={styles.logo} source={require("../assets/icon.png")} />
+
+            <Title style={styles.title}>Regístrate</Title>
 
             <View style={styles.form}>
                 <InputFormik
@@ -145,7 +141,10 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginVertical: 5,
-        marginHorizontal: "auto"
+        marginHorizontal: "auto",
+        width: 150,
+        height: 150,
+        resizeMode: 'contain'
     },
     form: {
         paddingHorizontal: 10,

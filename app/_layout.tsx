@@ -8,7 +8,7 @@ import { useSplashAnimation } from '../hooks/useSplashAnimation';
 
 export default function Root() {
   const { opacity, isReady } = useSplashAnimation();
-  
+
   if (!isReady) {
     return (
       <View style={{
@@ -18,8 +18,13 @@ export default function Root() {
         backgroundColor: "#ffffff",
       }}>
         <Animated.Image
-          source={require("../assets/images/splash-icon.png")}
-          style={{ opacity, width: 300, height: 300 }}
+          source={require("../assets/icon.png")}
+          style={{
+            opacity,
+            width: 200,
+            height: 200,
+            resizeMode: "contain",
+          }}
         />
       </View>
     );
