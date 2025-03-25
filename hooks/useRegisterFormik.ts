@@ -8,7 +8,7 @@ export default function useRegisterFormik() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
-    // Validaciones con Yup
+    // Validaciones
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("El nombre es obligatorio"),
         lastName: Yup.string().required("El apellido es obligatorio"),
@@ -24,6 +24,7 @@ export default function useRegisterFormik() {
             .required("La contraseña es obligatoria"),
     });
 
+    // Formik para manejar el formulario
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -40,10 +41,11 @@ export default function useRegisterFormik() {
             try {
                 const user = await registerUserService(values);
                 if (user) {
+                    // Redirige al dashboard después del registro
                     router.replace("/sign-in");
                 }
             } catch (err) {
-                console.log({ err });
+                console.log({ err })
             }
 
             setLoading(false);

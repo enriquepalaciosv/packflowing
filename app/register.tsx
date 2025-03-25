@@ -26,7 +26,7 @@ export default function RegisterScreen() {
                 style={styles.logo}
                 source={require("../assets/images/react-logo.png")}
             />
-
+        
             <Title style={styles.title}>Registro de Usuario</Title>
 
             <View style={styles.form}>
