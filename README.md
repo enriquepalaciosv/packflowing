@@ -34,25 +34,17 @@ Cloud Messaging > Configuración Web > Generate key pair
 Esto da dos claves, una pública y otra privada. Solo necesitamos la pública que corresponde a **vapidKey**
 ## Variables de Entorno
 
-Agregar variables de entorno dentro de app.json
+Agregar variables de entornos a el archivo .env (Ver .env.example)
 
 ```
-  {
-      ...
-      "extra": {
-            // API Keys del proyecto
-            "apiKey": "",
-            "authDomain": "",
-            "projectId": "",
-            "storageBucket": "",
-            "messagingSenderId": "",
-            "appId": "",
-            "measurementId": "",
-            // Cloud Messaging
-            "vapidKey": ""
-      },
-      ...
-  }
+  EXPO_PUBLIC_API_KEY=
+  EXPO_PUBLIC_AUTH_DOMAIN=
+  EXPO_PUBLIC_PROJECT_ID=
+  EXPO_PUBLIC_STORAGE_BUCKET=
+  EXPO_PUBLIC_MESSAGING_SENDER_ID=
+  EXPO_PUBLIC_APP_ID=
+  EXPO_PUBLIC_MEASUREMENT_ID=
+  EXPO_PUBLIC_VAPID_KEY=
 ```
 ## Correr proyecto local
 
