@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import {
@@ -78,6 +79,19 @@ export async function loginUserService(email: string, password: string) {
     const user = userCredential.user;
     Toast.success("Ingreso exitoso");
     return user;
+  } catch (error) {
+    Toast.error(getCustomErrorMessage(error.code));
+    return null;
+  }
+}
+
+export default async function resetPassword(email: string) {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    Toast.info(
+      "Si el correo esta registrado, recibirá las instrucciones por el mismo"
+    );
+    return;
   } catch (error) {
     Toast.error(getCustomErrorMessage(error.code));
     return null;
