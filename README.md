@@ -108,15 +108,6 @@ Buscar la propiedad **plugins**, hay un array con dos elementos, se debe modific
 
 Se puede modificar el color de fondo, y la propiedad **resizeMode** esta en **cover** para que ocupe todo el ancho de la pantalla ó establecer un ancho especifico con la propiedad **imageWidth** donde recibe un número. Por ejemplo 
 
-```
-"expo-splash-screen",
-{
-    "image": "./assets/images/splash-icon.png",
-    "resizeMode": "contain",
-    "imagewidth": 500,
-    "backgroundColor": "#ffffff"
-}
-```
 ## Autenticación
 
 Primero se debe habilitar Firebase Auth, verificar que en Métodos de Acceso se encuentre habilitado solo el ingreso con email y contraseña
