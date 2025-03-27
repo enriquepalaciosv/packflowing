@@ -13,7 +13,8 @@ export default function useGetUserData() {
         const userRef = doc(database, "users", session.uid);
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
-          setUserData(docSnap.data());
+          // Agrego la propiedad id al objeto userData
+          setUserData({ ...docSnap.data(), id: session.uid });
         }
       }
     };

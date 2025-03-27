@@ -1,65 +1,93 @@
-import { SafeAreaView, SectionList, StyleSheet, View } from "react-native";
+import {
+  SafeAreaView,
+  SectionList,
+  StyleSheet,
+  RefreshControl,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { Text } from "react-native-paper";
+import { useState, useCallback, useEffect } from "react";
 import HeaderPackages from "../../components/HeaderPackages";
 import PackageItem from "../../components/PackageItem";
+import useGetPackages from "../../hooks/useGetPackages";
 import useGetUserData from "../../hooks/useGetUserData";
+import { useSession } from "../../contexts/authentication";
 
 export default function Index() {
-  const { userData } = useGetUserData();
+  // const { userData } = useGetUserData();
+  const { packages, isLoading, reloadPackages } = useGetPackages(); // Añadido `reloadPackages`
+  const [refreshing, setRefreshing] = useState(false);
+  const { session } = useSession();
 
-  if (!userData) return <Text variant="labelSmall">Loading...</Text>;
+  // Función para recargar paquetes al hacer pull to refresh
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await reloadPackages(); // Recarga los paquetes
+    setRefreshing(false);
+  }, [reloadPackages]);
 
-  const sections: {
-    title:
-      | "Paquetes recibidos"
-      | "Paquetes en tránsito"
-      | "Paquetes listos para recoger"
-      | "Paquetes entregados";
-    data: string[];
-  }[] = [
-    { title: "Paquetes recibidos", data: ["1"] },
-    { title: "Paquetes en tránsito", data: ["1", "2", "3", "4"] },
-    { title: "Paquetes listos para recoger", data: ["1", "2", "3", "4"] },
-    { title: "Paquetes entregados", data: ["1", "2", "3", "4"] },
-  ];
+  if (!packages) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text variant="labelSmall">Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <SectionList
         keyExtractor={(_, index) => index.toString()}
-        sections={sections.map((section) => ({
+        sections={packages.map((section) => ({
           ...section,
           total: section.data.length, // Número total de paquetes
           totalData: section.data, // Listado completo de paquetes
-          data: section.data.slice(0, 2), // Lista con los primeros dos paquetes más recientes
+          data: section.data.slice(0, 2), // Solo los dos más recientes
         }))}
         ListHeaderComponent={
-          <HeaderPackages
-            name={userData.name}
-            lockerCode={userData.lockerCode}
-          />
+          <HeaderPackages name={session.name} lockerCode={session.lockerCode} />
         }
-        renderSectionHeader={({ section }) => (
-          <Text
-            variant="titleMedium"
-            style={{ marginVertical: 10 }}
-          >{`${section.title} (${section.total})`}</Text>
-        )}
+        renderSectionHeader={({ section }) =>
+          section.total ? (
+            <View
+              style={{
+                position: "relative",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text variant="titleMedium" style={{ marginVertical: 10 }}>
+                {`${section.title} (${section.total})`}
+              </Text>
+              {section.total > 5 ? (
+                <TouchableOpacity style={{}}>
+                  <Text>Ver todos</Text>
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          ) : null
+        }
+        stickySectionHeadersEnabled={false}
         renderItem={({ item, section }) => (
           <PackageItem
             section={section.title}
-            via="air"
-            title="TBA319764923837"
-            name="ENRIQUE PALACIOS VARGAS"
+            via={item.via}
+            title={item.idRastreo}
+            name={session.name + " " + session.lastName}
           />
         )}
         contentContainerStyle={styles.sectionList}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0" },
+  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0", marginBottom: 50 },
   sectionList: { padding: 20 },
 });

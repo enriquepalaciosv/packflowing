@@ -1,11 +1,20 @@
-import { useContext, createContext, type PropsWithChildren } from "react";
+import { createContext, useContext, type PropsWithChildren } from "react";
 import { useStorageState } from "../hooks/useStorageState";
-import { User } from "firebase/auth";
 
 const AuthContext = createContext<{
-  signIn: (user: User) => void;
+  signIn: (user: {
+    id: string;
+    name: string;
+    lastName: string;
+    lockerCode: string;
+  }) => void;
   signOut: () => void;
-  session?: User | null;
+  session?: {
+    id: string;
+    name: string;
+    lastName: string;
+    lockerCode: string;
+  } | null;
   isLoading: boolean;
 }>({
   signIn: () => null,
@@ -32,8 +41,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: (user: User) => {
-          setSession(user);
+        signIn: (userCredential) => {
+          setSession(userCredential);
         },
         signOut: () => {
           setSession(null);

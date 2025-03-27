@@ -6,6 +6,7 @@ import {
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   setDoc,
@@ -15,6 +16,7 @@ import { Toast } from "toastify-react-native";
 import getCustomErrorMessage from "../../../utils/firebaseErrors";
 import generateLockerCode from "../../../utils/generateLockedCode";
 import { auth, database } from "../../index";
+import cargarDatos from "../../packages/services/hardcode";
 
 interface User {
   name: string;
@@ -71,14 +73,36 @@ export async function registerUserService(user: User) {
 
 export async function loginUserService(email: string, password: string) {
   try {
+    // Iniciar sesión en Firebase Auth
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
     const user = userCredential.user;
+
+    // Obtener el documento del usuario desde Firestore
+    const userDocRef = doc(database, "users", user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (!userDocSnap.exists()) {
+      throw new Error(
+        "No se encontró información del usuario en la base de datos."
+      );
+    }
+
+    const userData = { id: user.uid, ...userDocSnap.data() };
+
+    // Cargar datos de prueba solo si es necesario
+    await cargarDatos();
+
     Toast.success("Ingreso exitoso");
-    return user;
+    return userData as {
+      id: string;
+      name: string;
+      lastName: string;
+      lockerCode: string;
+    };
   } catch (error) {
     Toast.error(getCustomErrorMessage(error.code));
     return null;

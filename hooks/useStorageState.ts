@@ -1,9 +1,21 @@
 import { useEffect, useCallback, useReducer } from "react";
 import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
-import { User } from "firebase/auth";
 
-type UseStateHook<T> = [[boolean, User | null], (value: User | null) => void];
+type UseStateHook<T> = [
+  [
+    boolean,
+    { id: string; name: string; lastName: string; lockerCode: string } | null
+  ],
+  (
+    value: {
+      id: string;
+      name: string;
+      lastName: string;
+      lockerCode: string;
+    } | null
+  ) => void
+];
 
 function useAsyncState<T>(
   initialValue: [boolean, T | null] = [true, null]
@@ -17,7 +29,15 @@ function useAsyncState<T>(
   ) as UseStateHook<T>;
 }
 
-export async function setStorageItemAsync(key: string, value: User | null) {
+export async function setStorageItemAsync(
+  key: string,
+  value: {
+    id: string;
+    name: string;
+    lastName: string;
+    lockerCode: string;
+  } | null
+) {
   if (Platform.OS === "web") {
     try {
       if (value === null) {
@@ -39,7 +59,12 @@ export async function setStorageItemAsync(key: string, value: User | null) {
 
 export function useStorageState(key: string): UseStateHook<string> {
   // Public
-  const [state, setState] = useAsyncState<User>();
+  const [state, setState] = useAsyncState<{
+    id: string;
+    name: string;
+    lastName: string;
+    lockerCode: string;
+  }>();
 
   // Get
   useEffect(() => {
@@ -60,7 +85,14 @@ export function useStorageState(key: string): UseStateHook<string> {
 
   // Set
   const setValue = useCallback(
-    (value: User | null) => {
+    (
+      value: {
+        id: string;
+        name: string;
+        lastName: string;
+        lockerCode: string;
+      } | null
+    ) => {
       setState(value);
       setStorageItemAsync(key, value);
     },

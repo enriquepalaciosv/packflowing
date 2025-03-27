@@ -197,3 +197,78 @@ Idioma de la plantilla
 En el email se puede observar un link, este link redirige a una pantalla por defecto que brinda Firebase Auth, es un simple formulario donde se ingresa la nueva contraseña, y se envía. La página debería mostrar un mensaje de confirmación "Ahora puedes acceder con tu contraseña nueva"
 
 Este link se puede cambiar por una URL de acción personalizada, por ejemplo alguna URL con un formulario ó otra opción es personalizar el servicio **sendPasswordResetEmail** para que el link abra la app 
+
+
+## Paquetes
+
+### Modelo de Paquetes
+
+El modelo de paquetes esta conformado por distintos modelos como: 
+
+Tarifa para determinar el costo del envío. 
+```
+Tarifa {
+  monto: number;
+  moneda: "USD" | "EUR" | "MXN"; // Puede incluir otras monedas
+}
+```
+
+```
+Ejemplo de tarifa {
+  monto: 12;
+  moneda: "USD"
+}
+```
+
+Incluye también el objeto Peso, que determina el peso del producto y la unidad
+
+```
+Peso {
+  monto: number;
+  unidad: "lb" | "kg"; // Puede incluir más unidades si es necesario
+}
+```
+
+```
+Ejemplo de Peso {
+  monto: 10;
+  unidad: "kg"
+}
+```
+
+Incluye también el objeto Rastreo para registrar un cambio en el estado del producto
+
+```
+Rastreo {
+  fecha: string; 
+  hora: string;
+  estado: "recibido" | "en_transito" | "listo_para_retirar" | "entregado";
+}
+
+Ejemplo de Rastreo {
+  fecha: "2025-03-27"; 
+  hora: "10:00";
+  estado: "recibido"
+}
+```
+El modelo de Paquete quedaría de la siguiente manera: 
+
+```
+Paquete {
+  idUsuario: string;
+  idRastreo: string;
+  estado: "recibido" | "en_transito" | "listo_para_retirar" | "entregado";
+  via: "aereo" | "maritimo";
+  peso: Peso;
+  tarifa: Tarifa;
+  contenido: string;
+  total: number;
+  rastreo: Rastreo[];
+}
+```
+
+Una vez logueado el usuario, se realiza la petición para obtener los paquetes de ese usuario
+
+Se ordenan por estado "Recibido", "En transito", "Listo para retirar" y "Entregado". Si no hay registro para alguno de los estados, no se muestra en pantalla
+
+Solo se muestran los primeros 5 paquetes de cada estado, ordenados por el último registro del array de rastreo
