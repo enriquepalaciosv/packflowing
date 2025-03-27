@@ -34,17 +34,25 @@ Cloud Messaging > Configuración Web > Generate key pair
 Esto da dos claves, una pública y otra privada. Solo necesitamos la pública que corresponde a **vapidKey**
 ## Variables de Entorno
 
-Agregar variables de entornos a el archivo .env (Ver .env.example)
+Agregar variables de entorno dentro de app.json
 
 ```
-  EXPO_PUBLIC_API_KEY=
-  EXPO_PUBLIC_AUTH_DOMAIN=
-  EXPO_PUBLIC_PROJECT_ID=
-  EXPO_PUBLIC_STORAGE_BUCKET=
-  EXPO_PUBLIC_MESSAGING_SENDER_ID=
-  EXPO_PUBLIC_APP_ID=
-  EXPO_PUBLIC_MEASUREMENT_ID=
-  EXPO_PUBLIC_VAPID_KEY=
+  {
+      ...
+      "extra": {
+            // API Keys del proyecto
+            "apiKey": "",
+            "authDomain": "",
+            "projectId": "",
+            "storageBucket": "",
+            "messagingSenderId": "",
+            "appId": "",
+            "measurementId": "",
+            // Cloud Messaging
+            "vapidKey": ""
+      },
+      ...
+  }
 ```
 ## Correr proyecto local
 
@@ -73,20 +81,38 @@ Correr el proyecto
 Se puede probar la app, desde la aplicación Expo Go, disponible en App Store para iOS o desde Play Store para Android
 
 Una vez dentro de Expo Go, se escanea el código QR y listo!
-
 ## Splash Image
 
-Para modificar la imagen de Splash, simplemente hay que reemplazar la imagen **/assets/icon.png** por la imagen que desea 
+Para modificar la imagen de Splash, simplemente hay que reemplazar la imagen **/assets/images/splash-icon.png** por la imagen que desea 
 
 ó
 
-Si desea agregar otra imagen, sin eliminar la anterior. Hay que modificar el archivo **app/_layout**. **useSplashAnimation**, este hook maneja la animación (duración, delay, etc.) 
+Si desea agregar otra imagen, sin eliminar la anterior. Hay que modificar el archivo **app.json**
+
+Buscar la propiedad **plugins**, hay un array con dos elementos, se debe modificar la propiedad **image** del segundo objeto
+
+```
+...
+"plugins": [
+      ...
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "resizeMode": "cover",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+...
+```
+
+Se puede modificar el color de fondo, y la propiedad **resizeMode** esta en **cover** para que ocupe todo el ancho de la pantalla ó establecer un ancho especifico con la propiedad **imageWidth** donde recibe un número. Por ejemplo 
 
 ## Autenticación
 
 Primero se debe habilitar Firebase Auth, verificar que en Métodos de Acceso se encuentre habilitado solo el ingreso con email y contraseña
 
-Luego, habilitar la base de datos Firestore (no hace falta crear ninguna colección, se hace la conexión desde el servicio y se crean las tablas necesarias) 
+Luego, habilitar la base de datos Firestore, una vez dentro de la base de datos crear una tabla llamada **users** 
 
 ### Registro 
 
@@ -162,3 +188,77 @@ Idioma de la plantilla
 En el email se puede observar un link, este link redirige a una pantalla por defecto que brinda Firebase Auth, es un simple formulario donde se ingresa la nueva contraseña, y se envía. La página debería mostrar un mensaje de confirmación "Ahora puedes acceder con tu contraseña nueva"
 
 Este link se puede cambiar por una URL de acción personalizada, por ejemplo alguna URL con un formulario ó otra opción es personalizar el servicio **sendPasswordResetEmail** para que el link abra la app 
+
+## Paquetes
+
+### Modelo de Paquetes
+
+El modelo de paquetes esta conformado por distintos modelos como: 
+
+Tarifa para determinar el costo del envío. 
+```
+Tarifa {
+  monto: number;
+  moneda: "USD" | "EUR" | "MXN"; // Puede incluir otras monedas
+}
+```
+
+```
+Ejemplo de tarifa {
+  monto: 12;
+  moneda: "USD"
+}
+```
+
+Incluye también el objeto Peso, que determina el peso del producto y la unidad
+
+```
+Peso {
+  monto: number;
+  unidad: "lb" | "kg"; // Puede incluir más unidades si es necesario
+}
+```
+
+```
+Ejemplo de Peso {
+  monto: 10;
+  unidad: "kg"
+}
+```
+
+Incluye también el objeto Rastreo para registrar un cambio en el estado del producto
+
+```
+Rastreo {
+  fecha: string; 
+  hora: string;
+  estado: "recibido" | "en_transito" | "listo_para_retirar" | "entregado";
+}
+
+Ejemplo de Rastreo {
+  fecha: "2025-03-27"; 
+  hora: "10:00";
+  estado: "recibido"
+}
+```
+El modelo de Paquete quedaría de la siguiente manera: 
+
+```
+Paquete {
+  idUsuario: string;
+  idRastreo: string;
+  estado: "recibido" | "en_transito" | "listo_para_retirar" | "entregado";
+  via: "aereo" | "maritimo";
+  peso: Peso;
+  tarifa: Tarifa;
+  contenido: string;
+  total: number;
+  rastreo: Rastreo[];
+}
+```
+
+Una vez logueado el usuario, se realiza la petición para obtener los paquetes de ese usuario
+
+Se ordenan por estado "Recibido", "En transito", "Listo para retirar" y "Entregado". Si no hay registro para alguno de los estados, no se muestra en pantalla
+
+Solo se muestran los primeros 5 paquetes de cada estado, ordenados por el último registro del array de rastreo
