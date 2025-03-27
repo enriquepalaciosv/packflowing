@@ -73,7 +73,6 @@ export async function registerUserService(user: User) {
 
 export async function loginUserService(email: string, password: string) {
   try {
-    // Iniciar sesión en Firebase Auth
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,

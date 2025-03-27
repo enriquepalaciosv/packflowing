@@ -41,8 +41,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: (userCredential) => {
-          setSession(userCredential);
+        signIn: (user) => {
+          setSession(userCruseredential);
         },
         signOut: () => {
           setSession(null);

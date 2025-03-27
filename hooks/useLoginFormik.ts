@@ -36,7 +36,7 @@ export default function useLoginFormik() {
         if (user) {
           signIn(user);
           // Redirige al dashboard después del registro
-          return router.replace("/(app)");
+          router.replace("/(app)");
         }
       } catch (err) {
         console.log({ err });

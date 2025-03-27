@@ -108,15 +108,6 @@ Buscar la propiedad **plugins**, hay un array con dos elementos, se debe modific
 
 Se puede modificar el color de fondo, y la propiedad **resizeMode** esta en **cover** para que ocupe todo el ancho de la pantalla ó establecer un ancho especifico con la propiedad **imageWidth** donde recibe un número. Por ejemplo 
 
-```
-"expo-splash-screen",
-{
-    "image": "./assets/images/splash-icon.png",
-    "resizeMode": "contain",
-    "imagewidth": 500,
-    "backgroundColor": "#ffffff"
-}
-```
 ## Autenticación
 
 Primero se debe habilitar Firebase Auth, verificar que en Métodos de Acceso se encuentre habilitado solo el ingreso con email y contraseña
@@ -197,7 +188,6 @@ Idioma de la plantilla
 En el email se puede observar un link, este link redirige a una pantalla por defecto que brinda Firebase Auth, es un simple formulario donde se ingresa la nueva contraseña, y se envía. La página debería mostrar un mensaje de confirmación "Ahora puedes acceder con tu contraseña nueva"
 
 Este link se puede cambiar por una URL de acción personalizada, por ejemplo alguna URL con un formulario ó otra opción es personalizar el servicio **sendPasswordResetEmail** para que el link abra la app 
-
 
 ## Paquetes
 
