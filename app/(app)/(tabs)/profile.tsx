@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import { useSession } from "../../contexts/authentication";
+import { useSession } from "../../../contexts/authentication";
 
 export default function Profile() {
   const { signOut } = useSession();

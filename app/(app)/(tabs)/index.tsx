@@ -1,22 +1,22 @@
+import { useRouter } from "expo-router";
+import { useCallback, useState } from "react";
 import {
+  RefreshControl,
   SafeAreaView,
   SectionList,
   StyleSheet,
-  RefreshControl,
-  View,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { Text } from "react-native-paper";
-import { useState, useCallback, useEffect } from "react";
-import HeaderPackages from "../../components/HeaderPackages";
-import PackageItem from "../../components/PackageItem";
-import useGetPackages from "../../hooks/useGetPackages";
-import useGetUserData from "../../hooks/useGetUserData";
-import { useSession } from "../../contexts/authentication";
+import HeaderPackages from "../../../components/HeaderPackages";
+import PackageItem from "../../../components/PackageItem";
+import { useSession } from "../../../contexts/authentication";
+import useGetPackages from "../../../hooks/useGetPackages";
 
 export default function Index() {
-  // const { userData } = useGetUserData();
-  const { packages, isLoading, reloadPackages } = useGetPackages(); // Añadido `reloadPackages`
+  const router = useRouter();
+  const { packages, isLoading, reloadPackages } = useGetPackages();
   const [refreshing, setRefreshing] = useState(false);
   const { session } = useSession();
 
@@ -41,9 +41,9 @@ export default function Index() {
         keyExtractor={(_, index) => index.toString()}
         sections={packages.map((section) => ({
           ...section,
-          total: section.data.length, // Número total de paquetes
-          totalData: section.data, // Listado completo de paquetes
-          data: section.data.slice(0, 2), // Solo los dos más recientes
+          total: section.data.length,
+          totalData: section.data,
+          data: section.data.slice(0, 2),
         }))}
         ListHeaderComponent={
           <HeaderPackages name={session.name} lockerCode={session.lockerCode} />
@@ -62,7 +62,11 @@ export default function Index() {
                 {`${section.title} (${section.total})`}
               </Text>
               {section.total > 5 ? (
-                <TouchableOpacity style={{}}>
+                <TouchableOpacity
+                  onPress={() =>
+                    router.push(`/detailSection?section=${section.path}`)
+                  }
+                >
                   <Text>Ver todos</Text>
                 </TouchableOpacity>
               ) : null}
