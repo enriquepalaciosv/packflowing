@@ -49,25 +49,27 @@ export default function Index() {
           <HeaderPackages name={session.name} lockerCode={session.lockerCode} />
         }
         ListEmptyComponent={() => <></>}
-        renderSectionHeader={({ section }) => (
-          <View
-            style={{
-              position: "relative",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text variant="titleMedium" style={{ marginVertical: 10 }}>
-              {`${section.title} (${section.total})`}
-            </Text>
-            {section.total > 5 ? (
-              <TouchableOpacity style={{}}>
-                <Text>Ver todos</Text>
-              </TouchableOpacity>
-            ) : null}
-          </View>
-        )}
+        renderSectionHeader={({ section }) =>
+          section.total ? (
+            <View
+              style={{
+                position: "relative",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text variant="titleMedium" style={{ marginVertical: 10 }}>
+                {`${section.title} (${section.total})`}
+              </Text>
+              {section.total > 5 ? (
+                <TouchableOpacity style={{}}>
+                  <Text>Ver todos</Text>
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          ) : null
+        }
         stickySectionHeadersEnabled={false}
         stickyHeaderHiddenOnScroll={false}
         renderItem={({ item, section }) => (
