@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 export default function HeaderPackages({
@@ -9,7 +9,7 @@ export default function HeaderPackages({
   lockerCode: string;
 }) {
   return (
-    <>
+    <View style={styles.stickyHeaderContainer}>
       <Text variant="headlineMedium">¡Hola, {name}!</Text>
       <View
         style={{
@@ -17,7 +17,6 @@ export default function HeaderPackages({
           flexDirection: "row",
           justifyContent: "flex-start",
           alignItems: "flex-end",
-          marginVertical: 10,
         }}
       >
         <Text variant="titleMedium" style={{ fontWeight: 400 }}>
@@ -30,6 +29,17 @@ export default function HeaderPackages({
           {String(lockerCode)}
         </Text>
       </View>
-    </>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  stickyHeaderContainer: {
+    position: "sticky",
+    minHeight: 120,
+    padding: 15,
+    top: 0,
+    left: 0,
+    right: 0,
+  },
+});

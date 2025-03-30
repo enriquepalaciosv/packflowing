@@ -38,6 +38,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <RefreshAnimation>
+        <HeaderPackages name={session.name} lockerCode={session.lockerCode} />
         <SectionList
           keyExtractor={(_, index) => index.toString()}
           sections={packages.map((section) => ({
@@ -46,12 +47,7 @@ export default function Index() {
             totalData: section.data, // Listado completo de paquetes
             data: section.data.slice(0, 5), // Solo los cinco más recientes
           }))}
-          ListHeaderComponent={
-            <HeaderPackages
-              name={session.name}
-              lockerCode={session.lockerCode}
-            />
-          }
+          ListHeaderComponent={null}
           ListEmptyComponent={() => <></>}
           renderSectionHeader={({ section }) =>
             section.total ? (
@@ -96,6 +92,6 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0", marginBottom: 50 },
-  sectionList: { padding: 20 },
+  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0", marginBottom: 170 },
+  sectionList: { padding: 20, marginBottom: 50 },
 });
