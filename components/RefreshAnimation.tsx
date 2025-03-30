@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Animated, StyleSheet } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
 
 export default function RefreshAnimation({ children }) {
   const translateY = useRef(new Animated.Value(0)).current;
@@ -36,8 +36,9 @@ export default function RefreshAnimation({ children }) {
 
     return () => clearTimeout(timeout);
   }, []);
+
   return (
-    <>
+    <View style={{ position: "relative" }}>
       <Animated.View style={{ transform: [{ translateY }] }}>
         {children}
       </Animated.View>
@@ -45,7 +46,7 @@ export default function RefreshAnimation({ children }) {
       <Animated.Text style={[styles.refreshText, { opacity }]}>
         Desliza para actualizar
       </Animated.Text>
-    </>
+    </View>
   );
 }
 

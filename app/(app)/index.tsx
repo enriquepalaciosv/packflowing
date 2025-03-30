@@ -37,8 +37,8 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <HeaderPackages name={session.name} lockerCode={session.lockerCode} />
       <RefreshAnimation>
-        <HeaderPackages name={session.name} lockerCode={session.lockerCode} />
         <SectionList
           keyExtractor={(_, index) => index.toString()}
           sections={packages.map((section) => ({
