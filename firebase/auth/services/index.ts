@@ -17,8 +17,9 @@ import getCustomErrorMessage from "../../../utils/firebaseErrors";
 import generateLockerCode from "../../../utils/generateLockedCode";
 import { auth, database } from "../../index";
 import cargarDatos from "../../packages/services/hardcode";
+import { User } from "../../../interfaces/user";
 
-interface User {
+interface UserRegister {
   name: string;
   lastName: string;
   email: string;
@@ -34,7 +35,7 @@ async function isLockerCodeUnique(lockerCode: string) {
   return querySnapshot.empty; // true si el código es único
 }
 
-export async function registerUserService(user: User) {
+export async function registerUserService(user: UserRegister) {
   const { email, password, name, lastName, phone, countryCode } = user;
 
   try {
@@ -90,18 +91,13 @@ export async function loginUserService(email: string, password: string) {
       );
     }
 
-    const userData = { id: user.uid, ...userDocSnap.data() };
+    const userData = { id: user.uid, ...(userDocSnap.data() as User) };
 
     // Cargar datos de prueba solo si es necesario
     await cargarDatos();
 
     Toast.success("Ingreso exitoso");
-    return userData as {
-      id: string;
-      name: string;
-      lastName: string;
-      lockerCode: string;
-    };
+    return userData as User;
   } catch (error) {
     Toast.error(getCustomErrorMessage(error.code));
     return null;
