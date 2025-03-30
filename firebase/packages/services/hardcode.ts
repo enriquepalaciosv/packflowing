@@ -1,15 +1,6 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, database } from "../..";
-
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 const cargarDatos = async () => {
   onAuthStateChanged(auth, async (user) => {
@@ -19,9 +10,6 @@ const cargarDatos = async () => {
     }
 
     const uid = user.uid;
-
-    // Referencia al flag de carga
-    const configRef = doc(database, `usuarios/${uid}/config/cargaInicial`);
 
     try {
       // Verificar si ya se cargaron datos para este usuario
@@ -105,9 +93,6 @@ const cargarDatos = async () => {
           await addDoc(collection(database, "paquetes"), item);
         }
       }
-
-      // Marcar que los datos ya fueron insertados
-      await setDoc(configRef, { cargado: true });
 
       console.log("Datos de prueba cargados correctamente.");
     } catch (error) {

@@ -27,12 +27,6 @@ export default function PackageCard({ section, title, name, via }) {
           <Text style={styles.packageCode}>{title}</Text>
           <Text style={styles.name}>{name}</Text>
         </View>
-        <AntDesign
-          name="arrowright"
-          style={styles.arrow}
-          size={24}
-          color="white"
-        />
       </View>
       <Icon section={section} via={via} size={140} style={styles.bgIcon} />
     </View>
@@ -75,10 +69,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
+    marginLeft: 10,
   },
   name: {
     color: "white",
     fontSize: 14,
+    marginLeft: 10,
   },
   arrow: {
     color: "white",
