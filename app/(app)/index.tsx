@@ -43,33 +43,33 @@ export default function Index() {
           ...section,
           total: section.data.length, // Número total de paquetes
           totalData: section.data, // Listado completo de paquetes
-          data: section.data.slice(0, 2), // Solo los dos más recientes
+          data: section.data.slice(0, 5), // Solo los cinco más recientes
         }))}
         ListHeaderComponent={
           <HeaderPackages name={session.name} lockerCode={session.lockerCode} />
         }
-        renderSectionHeader={({ section }) =>
-          section.total ? (
-            <View
-              style={{
-                position: "relative",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Text variant="titleMedium" style={{ marginVertical: 10 }}>
-                {`${section.title} (${section.total})`}
-              </Text>
-              {section.total > 5 ? (
-                <TouchableOpacity style={{}}>
-                  <Text>Ver todos</Text>
-                </TouchableOpacity>
-              ) : null}
-            </View>
-          ) : null
-        }
+        ListEmptyComponent={() => <></>}
+        renderSectionHeader={({ section }) => (
+          <View
+            style={{
+              position: "relative",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text variant="titleMedium" style={{ marginVertical: 10 }}>
+              {`${section.title} (${section.total})`}
+            </Text>
+            {section.total > 5 ? (
+              <TouchableOpacity style={{}}>
+                <Text>Ver todos</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        )}
         stickySectionHeadersEnabled={false}
+        stickyHeaderHiddenOnScroll={false}
         renderItem={({ item, section }) => (
           <PackageItem
             section={section.title}
