@@ -1,17 +1,21 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { View, Text } from "react-native";
+import { SectionList, StyleSheet, View } from "react-native";
 import { statusMapping } from "../../utils/orderPackagesByStatus";
 import useGetPackages from "../../hooks/useGetPackages";
 import groupAndSortPackagesByRastreo from "../../utils/groupPackagesByDate";
-import React from "react";
-import getAllPackageUser from "../../firebase/packages/services";
+import PackageItem from "../../components/PackageItem";
+import { Text } from "react-native-paper";
 import { Paquete } from "../../interfaces/packages";
+import { useSession } from "../../contexts/authentication";
+import React from "react";
+import formatearFecha from "../../utils/formatDate";
 
 export default function ListAllPackages() {
   const { section }: { section: "string" } = useLocalSearchParams(); // Obtener el nombre de la sección
   const { packages, isLoading } = useGetPackages();
+  const { session } = useSession();
   const [packagesByStatus, setPackagesByStatus] =
-    React.useState<Record<string, Paquete[] | null>>(null);
+    React.useState<{ title: string, data: Paquete[] }[]>(null);
 
   React.useEffect(() => {
     if (packages) {
@@ -36,10 +40,44 @@ export default function ListAllPackages() {
           headerBackButtonDisplayMode: "minimal",
         }}
       />
-
-      <View>
-        <Text>{JSON.stringify(packagesByStatus, null, 2)}</Text>
-      </View>
+      <SectionList
+        keyExtractor={(_, index) => index.toString()}
+        sections={packagesByStatus}
+        ListHeaderComponent={null}
+        ListEmptyComponent={() => <></>}
+        renderSectionHeader={({ section }) => (
+          <View
+            style={{
+              position: "relative",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text variant="titleMedium" style={{ marginVertical: 10 }}>
+              {formatearFecha(section.title)}
+            </Text>
+          </View>)
+        }
+        stickySectionHeadersEnabled={false}
+        stickyHeaderHiddenOnScroll={false}
+        renderItem={({ item }) => (
+          <PackageItem
+            section={statusMapping[section]}
+            via={item.via}
+            title={item.idRastreo}
+            name={session.name + " " + session.lastName}
+          />
+        )}
+        contentContainerStyle={styles.sectionList}
+      />
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  sectionList: {
+    paddingBottom: 20,
+    paddingHorizontal: 20
+  }
+})
