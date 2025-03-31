@@ -92,6 +92,6 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0", marginBottom: 170 },
+  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0", marginBottom: 200 },
   sectionList: { padding: 20, marginBottom: 50 },
 });
