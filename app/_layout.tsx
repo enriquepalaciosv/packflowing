@@ -48,7 +48,7 @@ export default function Root() {
           shadowColor: "#000",
         }}
       />
-      <StatusBar style={!dark ? "light" : "dark"} />
+      <StatusBar style={"dark"} />
       <Slot />
     </SessionProvider>
   );
