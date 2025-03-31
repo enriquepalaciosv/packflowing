@@ -1,8 +1,8 @@
 const COLORS = {
-  "Paquetes recibidos": ["#0056D2", "#00A3E0"],
-  "Paquetes en tránsito": ["#F9A825", "#E64A19"],
-  "Paquetes listos para recoger": ["#4CAF50", "#81C784"],
-  "Paquetes entregados": ["#FF9800", "#E65100"],
+  "Paquetes recibidos": ["#6FAED9", "#91C8E7"], 
+  "Paquetes en tránsito": ["#F4C842", "#FFD166"],
+  "Paquetes listos para recoger": ["#62B674", "#81C995"],
+  "Paquetes entregados": ["#E58AA5", "#F4A6C0"],
 };
 
 const COLORS_REFERENCES = {
