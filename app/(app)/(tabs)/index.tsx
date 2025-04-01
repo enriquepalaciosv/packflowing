@@ -1,11 +1,12 @@
 import { useCallback, useState } from "react";
 import {
+  Platform,
   RefreshControl,
   SafeAreaView,
   SectionList,
   StyleSheet,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { Text } from "react-native-paper";
 import HeaderPackages from "../../../components/HeaderPackages";
@@ -99,6 +100,6 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0", marginBottom: 170 },
-  sectionList: { padding: 20, marginBottom: 50 },
+  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0" },
+  sectionList: { paddingHorizontal: 20, paddingTop: 20, paddingBottom: 170 },
 });
