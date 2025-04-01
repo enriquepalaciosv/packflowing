@@ -93,5 +93,5 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   safeAreaView: { flex: 1, backgroundColor: "#f0f0f0" },
-  sectionList: { paddingHorizontal: 20, paddingTop: 20, paddingBottom: Platform.OS === "ios" ? 200 : 150 },
+  sectionList: { paddingHorizontal: 20, paddingTop: 20, paddingBottom: 170 },
 });
