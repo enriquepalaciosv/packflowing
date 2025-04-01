@@ -1,19 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import {
-  Animated,
+  Platform,
   RefreshControl,
   SafeAreaView,
   SectionList,
   StyleSheet,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { Text } from "react-native-paper";
 import HeaderPackages from "../../components/HeaderPackages";
 import PackageItem from "../../components/PackageItem";
+import RefreshAnimation from "../../components/RefreshAnimation";
 import { useSession } from "../../contexts/authentication";
 import useGetPackages from "../../hooks/useGetPackages";
-import RefreshAnimation from "../../components/RefreshAnimation";
 
 export default function Index() {
   const { packages, isLoading, reloadPackages } = useGetPackages(); // Añadido `reloadPackages`
@@ -92,6 +92,6 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0", marginBottom: 200 },
-  sectionList: { padding: 20, marginBottom: 50 },
+  safeAreaView: { flex: 1, backgroundColor: "#f0f0f0" },
+  sectionList: { paddingHorizontal: 20, paddingTop: 20, paddingBottom: Platform.OS === "ios" ? 200 : 150 },
 });
