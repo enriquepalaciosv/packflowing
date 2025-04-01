@@ -1,13 +1,10 @@
-import { Tabs } from "expo-router";
 import { Feather } from "@expo/vector-icons";
-import { Platform, Text } from "react-native";
+import { Tabs } from "expo-router";
+import { Platform } from "react-native";
 
 export default function TabsLayout() {
   return (
     <Tabs
-      title="Hols"
-      name="index"
-      options={{ headerShown: true, title: "Inicio" }}
       screenOptions={{
         headerShown: false,
         tabBarStyle: Platform.select({
@@ -15,6 +12,11 @@ export default function TabsLayout() {
             position: "absolute",
             height: "auto",
             paddingHorizontal: 75,
+          },
+          android: {
+            position: "absolute",
+            height: 60,
+            paddingBottom: 10,
           },
           default: {
             height: "auto",
