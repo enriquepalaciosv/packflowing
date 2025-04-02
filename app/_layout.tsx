@@ -1,22 +1,25 @@
-import { useFonts } from 'expo-font';
-import { Slot } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { Slot } from "expo-router";
 import { Animated, View } from "react-native";
-import ToastManager from 'toastify-react-native';
-import { SessionProvider } from '../contexts/authentication';
-import { useSplashAnimation } from '../hooks/useSplashAnimation';
+import ToastManager from "toastify-react-native";
+import { SessionProvider } from "../contexts/authentication";
+import { useSplashAnimation } from "../hooks/useSplashAnimation";
+import { useTheme } from "react-native-paper";
+import { StatusBar } from "expo-status-bar";
 
 export default function Root() {
   const { opacity, isReady } = useSplashAnimation();
+  const { dark } = useTheme();
 
   if (!isReady) {
     return (
-      <View style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#ffffff",
-      }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#ffffff",
+        }}
+      >
         <Animated.Image
           source={require("../assets/icon.png")}
           style={{
@@ -33,10 +36,10 @@ export default function Root() {
   return (
     <SessionProvider>
       <ToastManager
-        position='bottom'
+        position="bottom"
         textStyle={{
           fontSize: 14,
-          color: "#fff"
+          color: "#fff",
         }}
         style={{
           width: "100%",
@@ -45,6 +48,7 @@ export default function Root() {
           shadowColor: "#000",
         }}
       />
+      <StatusBar style={"dark"} />
       <Slot />
     </SessionProvider>
   );

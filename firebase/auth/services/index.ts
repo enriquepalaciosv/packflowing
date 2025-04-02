@@ -6,6 +6,7 @@ import {
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   setDoc,
@@ -15,8 +16,10 @@ import { Toast } from "toastify-react-native";
 import getCustomErrorMessage from "../../../utils/firebaseErrors";
 import generateLockerCode from "../../../utils/generateLockedCode";
 import { auth, database } from "../../index";
+import cargarDatos from "../../packages/services/hardcode";
+import { User } from "../../../interfaces/user";
 
-interface User {
+interface UserRegister {
   name: string;
   lastName: string;
   email: string;
@@ -32,7 +35,7 @@ async function isLockerCodeUnique(lockerCode: string) {
   return querySnapshot.empty; // true si el código es único
 }
 
-export async function registerUserService(user: User) {
+export async function registerUserService(user: UserRegister) {
   const { email, password, name, lastName, phone, countryCode } = user;
 
   try {
@@ -77,8 +80,24 @@ export async function loginUserService(email: string, password: string) {
       password
     );
     const user = userCredential.user;
+
+    // Obtener el documento del usuario desde Firestore
+    const userDocRef = doc(database, "users", user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (!userDocSnap.exists()) {
+      throw new Error(
+        "No se encontró información del usuario en la base de datos."
+      );
+    }
+
+    const userData = { id: user.uid, ...(userDocSnap.data() as User) };
+
+    // Cargar datos de prueba solo si es necesario
+    await cargarDatos();
+
     Toast.success("Ingreso exitoso");
-    return user;
+    return userData as User;
   } catch (error) {
     Toast.error(getCustomErrorMessage(error.code));
     return null;

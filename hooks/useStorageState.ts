@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useReducer } from "react";
 import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
-import { User } from "firebase/auth";
+import { User } from "../interfaces/user";
 
 type UseStateHook<T> = [[boolean, User | null], (value: User | null) => void];
 
