@@ -47,22 +47,42 @@ export default function AppLayout() {
         name="index"
         options={{
           title: "Paquetes",
-          tabBarIcon: ({ color }) => (
-            <Feather size={28} name="package" color={color} />
+          tabBarIcon: ({ focused }) => (
+            <Feather size={28} name="package" color={focused ? "#1f4396" : "grey"} />
           ),
           tabBarIconStyle: { marginBottom: 5 },
-          tabBarLabelStyle: { fontSize: 12 },
+          tabBarLabel(props) {
+            return (
+              <Text
+                {...props}
+                style={{
+                  fontSize: 12,
+                  color: props.focused ? "#1f4396" : "grey",
+                }}
+              />
+            );
+          },
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Perfil",
-          tabBarIcon: ({ color }) => (
-            <Feather size={28} name="user" color={color} />
+          tabBarIcon: ({ focused }) => (
+            <Feather size={28} name="user" color={focused ? "#1f4396" : "grey"} />
           ),
           tabBarIconStyle: { marginBottom: 5 },
-          tabBarLabelStyle: { fontSize: 12 },
+          tabBarLabel(props) {
+            return (
+              <Text
+                {...props}
+                style={{
+                  fontSize: 12,
+                  color: props.focused ? "#1f4396" : "grey",
+                }}
+              />
+            );
+          },
         }}
       />
     </Tabs>
