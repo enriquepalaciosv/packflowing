@@ -1,6 +1,5 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 import { SectionList, StyleSheet, View } from "react-native";
-import { statusMapping } from "../../utils/orderPackagesByStatus";
 import useGetPackages from "../../hooks/useGetPackages";
 import groupAndSortPackagesByRastreo from "../../utils/groupPackagesByDate";
 import PackageItem from "../../components/PackageItem";
@@ -9,9 +8,11 @@ import { Paquete } from "../../interfaces/packages";
 import { useSession } from "../../contexts/authentication";
 import React from "react";
 import formatearFecha from "../../utils/formatDate";
+import { actionPackageByRastreo, statusMapping } from "../../utils/mappingText";
 
 export default function ListAllPackages() {
-  const { section }: { section: "string" } = useLocalSearchParams(); // Obtener el nombre de la sección
+  const params = useLocalSearchParams(); // Obtener el nombre de la sección
+  const sectionParams = params.section as string;
   const { packages, isLoading } = useGetPackages();
   const { session } = useSession();
   const [packagesByStatus, setPackagesByStatus] =
@@ -21,7 +22,7 @@ export default function ListAllPackages() {
     if (packages) {
       setPackagesByStatus(
         groupAndSortPackagesByRastreo(
-          packages.find((item) => item.path === section).data
+          packages.find((item) => item.path === sectionParams).data
         )
       );
     }
@@ -35,7 +36,7 @@ export default function ListAllPackages() {
     <>
       <Stack.Screen
         options={{
-          title: statusMapping[section] || "Detalles",
+          title: statusMapping[sectionParams] || "",
           headerTintColor: "#0f0f0f",
           headerBackButtonDisplayMode: "minimal",
         }}
@@ -61,12 +62,12 @@ export default function ListAllPackages() {
         }
         stickySectionHeadersEnabled={false}
         stickyHeaderHiddenOnScroll={false}
-        renderItem={({ item }) => (
+        renderItem={({ item, section }) => (
           <PackageItem
-            section={statusMapping[section]}
+            section={statusMapping[sectionParams]}
             via={item.via}
             title={item.idRastreo}
-            name={session.name + " " + session.lastName}
+            name={`${actionPackageByRastreo[sectionParams]} el ${formatearFecha(section.title)}`}
           />
         )}
         contentContainerStyle={styles.sectionList}
