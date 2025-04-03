@@ -1,15 +1,4 @@
-export type SectionTitle =
-  | "Paquetes recibidos"
-  | "Paquetes en tránsito"
-  | "Paquetes listos para recoger"
-  | "Paquetes entregados";
-
-export const statusMapping: Record<string, SectionTitle> = {
-  recibido: "Paquetes recibidos",
-  en_transito: "Paquetes en tránsito",
-  listo_para_retirar: "Paquetes listos para recoger",
-  entregado: "Paquetes entregados",
-};
+import { SectionTitle, statusMapping } from "./mappingText";
 
 const groupPackagesByStatus = (packages: any[]) => {
   // Crear estructura inicial
