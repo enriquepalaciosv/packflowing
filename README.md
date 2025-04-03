@@ -236,3 +236,9 @@ Una vez logueado el usuario, se realiza la petición para obtener los paquetes d
 Se ordenan por estado "Recibido", "En transito", "Listo para retirar" y "Entregado". Si no hay registro para alguno de los estados, no se muestra en pantalla
 
 Solo se muestran los primeros 5 paquetes de cada estado, ordenados por el último registro del array de rastreo
+
+Si una sección contiene más de 5 elementos aparece un botón de **Ver todos** que lleva a un pantalla donde se muestra un listado de paquetes del usuario, agrupados por fecha y ordenados por la hora en que fue actualizado (mostrando el más reciente primero)
+
+***Detalles de un paquete
+
+Al seleccionar un paquete de los listados, se lleva a una página con los detalles del mismo; timeline de los movimientos de paquete, observaciones (modificaciones sobre la vía del envío, error por mal etiquetado u otros errores generales). Tambien se mostrará, sólo si se ha establecido, peso del contenido. Y por último, costo total del envío, este solo aparece si el peso y la tarifa se han establecido anteriormente.
