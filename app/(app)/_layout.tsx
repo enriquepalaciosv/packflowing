@@ -16,7 +16,7 @@ export default function AppLayout() {
 
       <Stack.Screen
         name="listAllPackages"
-        options={{ headerShown: true, title: "Detalles" }}
+        options={{ headerShown: true, title: "" }}
       />
     </Stack>
   );
