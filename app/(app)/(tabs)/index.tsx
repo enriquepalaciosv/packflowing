@@ -9,16 +9,18 @@ import {
   View
 } from "react-native";
 import { Text } from "react-native-paper";
-import HeaderPackages from "../../components/HeaderPackages";
-import PackageItem from "../../components/PackageItem";
-import RefreshAnimation from "../../components/RefreshAnimation";
-import { useSession } from "../../contexts/authentication";
-import useGetPackages from "../../hooks/useGetPackages";
+import HeaderPackages from "../../../components/HeaderPackages";
+import PackageItem from "../../../components/PackageItem";
+import RefreshAnimation from "../../../components/RefreshAnimation";
+import { useSession } from "../../../contexts/authentication";
+import useGetPackages from "../../../hooks/useGetPackages";
+import { useRouter } from "expo-router";
 
 export default function Index() {
   const { packages, isLoading, reloadPackages } = useGetPackages(); // Añadido `reloadPackages`
   const [refreshing, setRefreshing] = useState(false);
   const { session } = useSession();
+  const router = useRouter();
 
   // Función para recargar paquetes al hacer pull to refresh
   const onRefresh = useCallback(async () => {
@@ -30,7 +32,7 @@ export default function Index() {
   if (!packages) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text variant="labelSmall">Loading...</Text>
+        <Text variant="labelSmall">Cargando...</Text>
       </View>
     );
   }
@@ -63,7 +65,13 @@ export default function Index() {
                   {`${section.title} (${section.total})`}
                 </Text>
                 {section.total > 5 ? (
-                  <TouchableOpacity style={{}}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      router.push(
+                        `/(app)/listAllPackages?section=${section.path}`
+                      )
+                    }
+                  >
                     <Text>Ver todos</Text>
                   </TouchableOpacity>
                 ) : null}

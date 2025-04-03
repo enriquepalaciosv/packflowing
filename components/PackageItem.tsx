@@ -4,6 +4,8 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import COLORS from "../constants/colorsBgCard";
 import ICONS from "../constants/iconsCard";
+import { useLocalSearchParams } from "expo-router";
+import { packageMapping, statusMapping } from "../utils/mappingText";
 
 const Icon = ({ section, via, style, size }) => {
   const icon = ICONS(size, style)[section];
@@ -11,32 +13,50 @@ const Icon = ({ section, via, style, size }) => {
 };
 
 export default function PackageCard({ section, title, name, via }) {
+  const props: { section?: string } = useLocalSearchParams();
+  const sectionParams = props?.section;
+
   return (
-    <View style={styles.card}>
+    <View style={sectionParams ? [styles.card, { paddingHorizontal: 0 }] : styles.card}>
       <LinearGradient colors={COLORS[section]} style={styles.background} />
-      <View style={styles.content}>
-        <View style={styles.iconContainer}>
-          <Icon
-            section={section}
-            via={via}
-            size={30}
-            style={styles.iconContainer}
-          />
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.packageCode}>{title}</Text>
-          <Text style={styles.name}>{name}</Text>
-        </View>
-      </View>
+      {sectionParams ? <BodyPackageByStatus section={sectionParams} name={name} title={title} /> : <BodyPackageHomeScreen name={name} title={title} section={section} via={via} />}
       <Icon section={section} via={via} size={140} style={styles.bgIcon} />
     </View>
   );
-}
+};
+
+const BodyPackageHomeScreen = ({ section, via, title, name }) => (
+  <View style={styles.content}>
+    <View style={styles.iconContainer}>
+      <Icon
+        section={section}
+        via={via}
+        size={30}
+        style={styles.iconContainer}
+      />
+    </View>
+    <View style={styles.textContainer}>
+      <Text style={styles.packageCode}>{title}</Text>
+      <Text style={styles.name}>{name}</Text>
+    </View>
+  </View>
+);
+
+const BodyPackageByStatus = ({ section, title, name }) => (
+  <View style={styles.content}>
+    <View style={styles.textContainer}>
+      <Text style={styles.title}>{packageMapping[section]}</Text>
+      <Text style={styles.packageCode}>Paquete: {title}</Text>
+      <Text style={styles.name}>{name}</Text>
+    </View>
+  </View>
+)
 
 const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
     height: 100,
     marginVertical: 5,
     flexDirection: "row",
@@ -44,6 +64,7 @@ const styles = StyleSheet.create({
     position: "relative",
     overflow: "hidden",
   },
+  withoutPaddingHorizontal: { paddingHorizontal: 0 },
   background: {
     position: "absolute",
     left: 0,
@@ -68,6 +89,12 @@ const styles = StyleSheet.create({
   packageCode: {
     color: "white",
     fontWeight: "bold",
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  title: {
+    color: "white",
+    fontWeight: 500,
     fontSize: 16,
     marginLeft: 10,
   },
