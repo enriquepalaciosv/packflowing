@@ -48,7 +48,6 @@ export const getPackagesByState = async (
 };
 
 export async function getPackageById(idRastreo: string) {
-  try {
     const paquetesRef = collection(database, "paquetes"); // Referencia a la colección "paquetes"
     const q = query(paquetesRef, where("idRastreo", "==", idRastreo)); // Filtrar por idRastreo
     const querySnapshot = await getDocs(q);
@@ -64,3 +63,4 @@ export async function getPackageById(idRastreo: string) {
     return null;
   }
 }
+=======
