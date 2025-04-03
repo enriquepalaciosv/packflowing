@@ -18,6 +18,16 @@ export default function AppLayout() {
         name="listAllPackages"
         options={{ headerShown: true, title: "" }}
       />
+
+      <Stack.Screen
+        name="detailPackage"
+        options={{
+          headerShown: true,
+          title: "Detalles del Paquete",
+          headerTintColor: "#0f0f0f",
+          headerBackButtonDisplayMode: "minimal",
+        }}
+      />
     </Stack>
   );
 }
