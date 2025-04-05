@@ -64,6 +64,7 @@ export default function ListAllPackages() {
         stickyHeaderHiddenOnScroll={false}
         renderItem={({ item, section }) => (
           <PackageItem
+            id={item.idRastreo}
             section={statusMapping[sectionParams]}
             via={item.via}
             title={item.idRastreo}

@@ -6,6 +6,7 @@ import {
   getDocs,
   orderBy,
   limit,
+  getDoc,
 } from "firebase/firestore";
 
 export default async function getAllPackageUser(idUser: string) {
@@ -45,3 +46,21 @@ export const getPackagesByState = async (
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 };
+
+export async function getPackageById(idRastreo: string) {
+  try {
+    const paquetesRef = collection(database, "paquetes"); // Referencia a la colección "paquetes"
+    const q = query(paquetesRef, where("idRastreo", "==", idRastreo)); // Filtrar por idRastreo
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return null; // 🔹 Si no hay resultados, devuelve null
+    }
+
+    const paquete = querySnapshot.docs[0].data(); // 🔹 Obtiene el primer documento
+    return { id: querySnapshot.docs[0].id, ...paquete }; // 🔹 Devuelve el objeto con su ID
+  } catch (error) {
+    console.error("Error al obtener el paquete:", error);
+    return null;
+  }
+}

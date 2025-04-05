@@ -82,6 +82,7 @@ export default function Index() {
           stickyHeaderHiddenOnScroll={false}
           renderItem={({ item, section }) => (
             <PackageItem
+              id={item.idRastreo}
               section={section.title}
               via={item.via}
               title={item.idRastreo}
