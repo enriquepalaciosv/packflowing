@@ -1,8 +1,8 @@
 const COLORS = {
-  "Paquetes recibidos": ["#0072FF", "#00C6FF"],
-  "Paquetes en tránsito": ["#F7B733", "#FC4A1A"],
-  "Paquetes listos para recoger": ["#56ab2f", "#a8e063"],
-  "Paquetes entregados": ["#fe8900", "#ea7d00"],
+  "Paquetes recibidos": ["#939c9fab","#4a4a4a"],
+  "Paquetes en tránsito": ["#f0d4b2","#a37319"],
+  "Paquetes listos para recoger": ["#a58577","#5c4133"],
+  "Paquetes entregados": ["#2e8b56d8", "#1E4D2B"],
 };
 
 export default COLORS;
