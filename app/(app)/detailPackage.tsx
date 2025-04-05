@@ -90,7 +90,7 @@ const TrackingDetails = () => {
                         <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 8 }}>
                             <Text>Servicio de envío</Text>
                             <Text style={{ fontWeight: "bold" }}>
-                                ${packageData.tarifa.monto * packageData.peso.monto} {packageData.tarifa.moneda}
+                            {packageData.tarifa.moneda} {packageData.tarifa.monto * packageData.peso.monto} 
                             </Text>
                         </View>
                     </>
