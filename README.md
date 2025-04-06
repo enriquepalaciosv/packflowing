@@ -242,3 +242,24 @@ Si una sección contiene más de 5 elementos aparece un botón de **Ver todos** 
 ***Detalles de un paquete
 
 Al seleccionar un paquete de los listados, se lleva a una página con los detalles del mismo; timeline de los movimientos de paquete, observaciones (modificaciones sobre la vía del envío, error por mal etiquetado u otros errores generales). Tambien se mostrará, sólo si se ha establecido, peso del contenido. Y por último, costo total del envío, este solo aparece si el peso y la tarifa se han establecido anteriormente.
+
+## Perfil
+
+En esta pantalla se puede modificar información personal de usuario, como nombre, apellido, correo y número de teléfono. 
+
+También hay un menú de seguridad donde el usuario puede cambiar su contraseña. 
+
+
+Un link de contacto que abre la aplicación de Whatsapp. Para configurar este número se agrego una variable de entorno **EXPO_PUBLIC_NUMBER_CONTACT**, con el prefijo del país + el número. Por ejemplo:
+
+```
+EXPO_PUBLIC_NUMBER_CONTACT=+12224545454
+```
+
+Y por último dentro del menú de seguridad aparece un link de **Políticas de privacidad** que redirige a una página externa en el navegador predeterminado. Esta **URL** se configura con una variable de entorno, llamada **EXPO_PUBLIC_POLITY_URL**. Por ejemplo: 
+
+```
+EXPO_PUBLIC_POLITY_URL=https://www.example/polity
+```
+
+Al final aparece un botón para cerrar la sesión del usuario
