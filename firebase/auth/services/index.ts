@@ -2,6 +2,8 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  getAuth,
+  updateEmail,
 } from "firebase/auth";
 import {
   collection,
@@ -10,6 +12,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { Toast } from "toastify-react-native";
@@ -114,5 +117,34 @@ export default async function resetPassword(email: string) {
   } catch (error) {
     Toast.error(getCustomErrorMessage(error.code));
     return null;
+  }
+}
+
+export async function updateUserService(user: Partial<UserRegister>) {
+  const { name, lastName, email, phone, countryCode } = user;
+
+  const auth = getAuth();
+
+  try {
+    if (auth.currentUser.email !== email) {
+      await updateEmail(auth.currentUser, email);
+    }
+  } catch (err) {
+    console.error("Error al actualizar en Auth:", err.message);
+  }
+
+  try {
+    const userRef = doc(database, "users", auth.currentUser.uid);
+    await updateDoc(userRef, {
+      name,
+      lastName,
+      email,
+      countryCode,
+      phone,
+    });
+
+    Toast.success("Perfil actualizado con éxito");
+  } catch (err) {
+    console.error("Error al actualizar en Firestore:", err.message);
   }
 }
