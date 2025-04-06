@@ -6,8 +6,10 @@ import { useSession } from "../../../contexts/authentication";
 import useProfileFormik from "../../../hooks/useProfileFormik";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Linking } from 'react-native';
+import { useRouter } from "expo-router";
 
 export default function Profile() {
+  const router = useRouter();
   const { signOut, session } = useSession();
   const {
     values,
@@ -21,6 +23,7 @@ export default function Profile() {
     resetForm
   } = useProfileFormik(session);
 
+  const handleChangePassword = () => router.push("/(app)/change-password")
   const handleContact = () => {
     const phoneNumber = process.env.EXPO_PUBLIC_NUMBER_CONTACT;
     const url = `https://wa.me/${phoneNumber}`;
@@ -124,7 +127,7 @@ export default function Profile() {
           {/* Seguridad */}
           <Text variant="titleLarge">Seguridad</Text>
           <View style={styles.security}>
-            <TouchableOpacity style={styles.buttonSecurity}>
+            <TouchableOpacity style={styles.buttonSecurity} onPress={handleChangePassword}>
               <Icon size={20} source="lock" />
               <Text style={styles.textSecurity}>Cambiar contraseña</Text>
             </TouchableOpacity>
