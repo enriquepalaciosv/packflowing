@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   getAuth,
   updateEmail,
+  updatePassword,
 } from "firebase/auth";
 import {
   collection,
@@ -147,4 +148,17 @@ export async function updateUserService(user: Partial<UserRegister>) {
   } catch (err) {
     console.error("Error al actualizar en Firestore:", err.message);
   }
+}
+
+export async function updatePasswordService(newPassword: string) {
+  const auth = getAuth();
+
+  try {
+    await updatePassword(auth.currentUser, newPassword);
+    Toast.success("Contraseña actualizada con éxito");
+  } catch (err) {
+    console.error("Error al actualizar en Auth:", err.message);
+    Toast.error("Error al actualizar contraseña");
+  }
+
 }
