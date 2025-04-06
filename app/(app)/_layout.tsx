@@ -28,6 +28,13 @@ export default function AppLayout() {
           headerBackButtonDisplayMode: "minimal",
         }}
       />
+
+      <Stack.Screen
+        name="change-password"
+        options={{
+          presentation: "formSheet",
+        }}
+      />
     </Stack>
   );
 }
