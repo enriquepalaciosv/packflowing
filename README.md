@@ -249,17 +249,17 @@ En esta pantalla se puede modificar información personal de usuario, como nombr
 
 También hay un menú de seguridad donde el usuario puede cambiar su contraseña. 
 
-
-Un link de contacto que abre la aplicación de Whatsapp. Para configurar este número se agrego una variable de entorno **EXPO_PUBLIC_NUMBER_CONTACT**, con el prefijo del país + el número. Por ejemplo:
-
-```
-EXPO_PUBLIC_NUMBER_CONTACT=+12224545454
-```
-
-Y por último dentro del menú de seguridad aparece un link de **Políticas de privacidad** que redirige a una página externa en el navegador predeterminado. Esta **URL** se configura con una variable de entorno, llamada **EXPO_PUBLIC_POLITY_URL**. Por ejemplo: 
+Aparece un link de contacto que abre la aplicación de Whatsapp. Este número se obtiene de la base de datos, de la tabla agencia, por defecto crea un documento con los siguientes datos: 
 
 ```
-EXPO_PUBLIC_POLITY_URL=https://www.example/polity
+Agencia {
+  contacto: "+12224343434",
+  politicaPrivacidad: "https://example.com/polity"
+}
 ```
+
+Los cuales pueden ser modificados desde Firestore, por la información que desee. 
+
+Y por último dentro del menú de seguridad aparece un link de **Políticas de privacidad** que redirige a una página externa en el navegador predeterminado. Esta **URL** también de la tabla agencia en Firestore.
 
 Al final aparece un botón para cerrar la sesión del usuario
