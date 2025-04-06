@@ -7,9 +7,13 @@ import useProfileFormik from "../../../hooks/useProfileFormik";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Linking } from 'react-native';
 import { useRouter } from "expo-router";
+import { getAgenciaByDefault } from "../../../firebase/agencia/services";
+import { useEffect } from "react";
+import getInfoAgencia from "../../../hooks/useGetInfoAgencia";
 
 export default function Profile() {
   const router = useRouter();
+  const { contacto, politicaPrivacidad } = getInfoAgencia();
   const { signOut, session } = useSession();
   const {
     values,
@@ -25,11 +29,10 @@ export default function Profile() {
 
   const handleChangePassword = () => router.push("/(app)/change-password")
   const handleContact = () => {
-    const phoneNumber = process.env.EXPO_PUBLIC_NUMBER_CONTACT;
-    const url = `https://wa.me/${phoneNumber}`;
+    const url = `https://wa.me/${contacto}`;
     Linking.openURL(url);
   };
-  const handlePolity = () => Linking.openURL(process.env.EXPO_PUBLIC_POLITY_URL);
+  const handlePolity = () => Linking.openURL(politicaPrivacidad);
   const handleSignOut = () => signOut();
 
   return (
