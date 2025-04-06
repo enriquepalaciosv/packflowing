@@ -7,7 +7,7 @@ import {
   setPersistence,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { createCollection } from "./database";
+import { createCollection, createCollectionAgencia } from "./database";
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_API_KEY,
@@ -33,5 +33,8 @@ createCollection("users", database).catch((error) => console.log({ error }));
 
 // Crear coleccion paquetes
 createCollection("paquetes", database).catch((error) => console.log({ error }));
+
+// Crear coleccion agencia e insertar elemento
+createCollectionAgencia("agencia", database).catch((error) => console.log({ error }));
 
 export { app, auth, database };
