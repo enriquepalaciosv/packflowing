@@ -5,11 +5,7 @@ import { useSession } from "../../contexts/authentication";
 export default function AppLayout() {
   const { session, isLoading } = useSession();
 
-<<<<<<< HEAD
   if (isLoading) return <Text>Loading...</Text>;
-=======
-  if (isLoading) return <Text>Cargando...</Text>;
->>>>>>> origin
   if (!session) return <Redirect href="/sign-in" />;
   return (
     <Stack screenOptions={{ headerShown: false }}>

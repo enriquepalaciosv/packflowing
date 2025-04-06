@@ -10,12 +10,7 @@ const AuthContext = createContext<{
     lockerCode: string;
   }) => void;
   signOut: () => void;
-  session?: {
-    id: string;
-    name: string;
-    lastName: string;
-    lockerCode: string;
-  } | null;
+  session?: User | null;
   isLoading: boolean;
 }>({
   signIn: () => null,
