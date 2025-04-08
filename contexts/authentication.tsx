@@ -1,6 +1,9 @@
-import { createContext, useContext, type PropsWithChildren } from "react";
+import { createContext, useContext, useEffect, type PropsWithChildren } from "react";
 import { useStorageState } from "../hooks/useStorageState";
 import { User } from "../interfaces/user";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
+import * as SecureStore from "expo-secure-store";
 
 const AuthContext = createContext<{
   signIn: (user: {
@@ -33,6 +36,25 @@ export function useSession() {
 
 export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState("session");
+
+  useEffect(() => {
+    const loadSession = async () => {
+      const stored = await SecureStore.getItemAsync("session");
+      if (stored) setSession(JSON.parse(stored));
+    };
+
+    loadSession();
+
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (!firebaseUser) {
+        setSession(null);
+        await SecureStore.deleteItemAsync("session");
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
 
   return (
     <AuthContext.Provider

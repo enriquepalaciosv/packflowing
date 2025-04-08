@@ -1,10 +1,8 @@
-import Constants from "expo-constants";
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { initializeApp } from "firebase/app";
 import {
-  browserLocalPersistence,
-  initializeAuth,
-  inMemoryPersistence,
-  setPersistence,
+  getReactNativePersistence,
+  initializeAuth
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { createCollection, createCollectionAgencia } from "./database";
@@ -21,7 +19,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = initializeAuth(app, {
-  persistence: inMemoryPersistence,
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 });
 
 const database = getFirestore(app);
