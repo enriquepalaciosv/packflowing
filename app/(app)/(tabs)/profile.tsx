@@ -1,18 +1,15 @@
-import { SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useState } from "react";
+import { Linking, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Button, Divider, Icon, Text } from "react-native-paper";
+import ChangePasswordModal from "../../../components/ChangePasswordModal";
 import InputFormik from "../../../components/InputFormik";
 import SelectCountryCodes from "../../../components/SelectCountryCodes";
 import { useSession } from "../../../contexts/authentication";
-import useProfileFormik from "../../../hooks/useProfileFormik";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Linking } from 'react-native';
-import { useRouter } from "expo-router";
-import { getAgenciaByDefault } from "../../../firebase/agencia/services";
-import { useEffect } from "react";
 import getInfoAgencia from "../../../hooks/useGetInfoAgencia";
+import useProfileFormik from "../../../hooks/useProfileFormik";
 
 export default function Profile() {
-  const router = useRouter();
   const { contacto, politicaPrivacidad } = getInfoAgencia();
   const { signOut, session } = useSession();
   const {
@@ -27,7 +24,9 @@ export default function Profile() {
     resetForm
   } = useProfileFormik(session);
 
-  const handleChangePassword = () => router.push("/(app)/change-password")
+  const [visible, setVisible] = useState(false);
+  const handleModal = () => setVisible(!visible);
+
   const handleContact = () => {
     const url = `https://wa.me/${contacto}`;
     Linking.openURL(url);
@@ -37,6 +36,7 @@ export default function Profile() {
 
   return (
     <SafeAreaView>
+      <ChangePasswordModal visible={visible} hideModal={handleModal} />
       <ScrollView>
         <View style={styles.container}>
           <Text variant="titleLarge">Información personal</Text>
@@ -130,7 +130,7 @@ export default function Profile() {
           {/* Seguridad */}
           <Text variant="titleLarge">Seguridad</Text>
           <View style={styles.security}>
-            <TouchableOpacity style={styles.buttonSecurity} onPress={handleChangePassword}>
+            <TouchableOpacity style={styles.buttonSecurity} onPress={handleModal}>
               <Icon size={20} source="lock" />
               <Text style={styles.textSecurity}>Cambiar contraseña</Text>
             </TouchableOpacity>
