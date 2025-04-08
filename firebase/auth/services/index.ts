@@ -156,9 +156,9 @@ export async function updatePasswordService(newPassword: string) {
   try {
     await updatePassword(auth.currentUser, newPassword);
     Toast.success("Contraseña actualizada con éxito");
-  } catch (err) {
-    console.error("Error al actualizar en Auth:", err.message);
-    Toast.error("Error al actualizar contraseña");
+  } catch (error) {
+    console.error("Error al actualizar en Auth:", error.message);
+    Toast.error(getCustomErrorMessage(error.code));
   }
 
 }
