@@ -24,19 +24,8 @@ export default function ChangePasswordModal({ visible, hideModal }: { visible: b
             <Modal
                 visible={visible}
                 onDismiss={hideModal}
-                contentContainerStyle={{
-                    position: "absolute",
-                    bottom: 0,
-                    width: "100%",
-                    height: "50%",
-                    padding: 20,
-                    backgroundColor: 'white',
-                    borderTopLeftRadius: 16,
-                    borderTopRightRadius: 16,
-                    justifyContent: "space-between"
-                }}
+                contentContainerStyle={styles.container}
             >
-                {/* <View style={styles.modalContainer}> */}
                 <Text variant="titleLarge">Cambiar contraseña</Text>
                 <View style={styles.form}>
                     <InputFormik
@@ -47,6 +36,7 @@ export default function ChangePasswordModal({ visible, hideModal }: { visible: b
                         errorText={errors.password}
                         handleChange={handleChange("password")}
                         handleBlur={handleBlur("password")}
+                        secureTextEntry
                     />
 
                     <InputFormik
@@ -57,6 +47,7 @@ export default function ChangePasswordModal({ visible, hideModal }: { visible: b
                         errorText={errors.repeatPassword}
                         handleChange={handleChange("repeatPassword")}
                         handleBlur={handleBlur("repeatPassword")}
+                        secureTextEntry
                     />
 
                 </View>
@@ -88,6 +79,18 @@ export default function ChangePasswordModal({ visible, hideModal }: { visible: b
 }
 
 const styles = StyleSheet.create({
+    container: {
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+        height: "75%",
+        padding: 20,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        justifyContent: "flex-start",
+        gap: 25
+    },
     form: {
         gap: 10
     },
