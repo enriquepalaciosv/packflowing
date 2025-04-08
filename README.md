@@ -245,7 +245,15 @@ Al seleccionar un paquete de los listados, se lleva a una página con los detall
 
 ## Perfil
 
-En esta pantalla se puede modificar información personal de usuario, como nombre, apellido, correo y número de teléfono. 
+En esta pantalla se puede modificar información personal de usuario, como nombre, apellido, correo y número de teléfono.
+
+Para poder modificar el correo, se necesita habilitar esta función desde Firebase Auth. Ingresando a Authentication, en la sección de **Configuración** aparece un menú de **Acciones del usuario**, allí se debe desmarcar la opción **Protección de enumeración de correo electronico**
+
+```
+Authentication > Configuración > Acciones del Usuario > Protección de enumeración de correo electronico
+```
+
+Al modificar el correo de acceso, el usuario recibe un email notificandole el cambio de correo y con un link para revertirlo
 
 También hay un menú de seguridad donde el usuario puede cambiar su contraseña. 
 
