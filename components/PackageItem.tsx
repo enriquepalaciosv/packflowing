@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import COLORS from "../constants/colorsBgCard";
 import ICONS from "../constants/iconsCard";
 import { packageMapping } from "../utils/mappingText";
@@ -11,16 +11,23 @@ const Icon = ({ section, via, style, size }) => {
   return icon[via];
 };
 
-export default function PackageCard({ section, title, name, via }) {
+export default function PackageCard({ id, section, title, name, via }) {
   const props: { section?: string } = useLocalSearchParams();
   const sectionParams = props?.section;
+  const router = useRouter();
 
   return (
-    <View style={sectionParams ? [styles.card, { paddingHorizontal: 0 }] : styles.card}>
+    <TouchableOpacity
+      onPress={() => router.push({
+        pathname: "/detailPackage",
+        params: { id }
+      })}
+      style={sectionParams ? [styles.card, { paddingHorizontal: 0 }] : styles.card}
+    >
       <LinearGradient colors={COLORS[section]} style={styles.background} />
       {sectionParams ? <BodyPackageByStatus section={sectionParams} name={name} title={title} /> : <BodyPackageHomeScreen name={name} title={title} section={section} via={via} />}
       <Icon section={section} via={via} size={140} style={styles.bgIcon} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
