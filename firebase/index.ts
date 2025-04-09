@@ -1,13 +1,11 @@
-import Constants from "expo-constants";
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { initializeApp } from "firebase/app";
 import {
-  browserLocalPersistence,
-  initializeAuth,
-  inMemoryPersistence,
-  setPersistence,
+  getReactNativePersistence,
+  initializeAuth
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { createCollection } from "./database";
+import { createCollection, createCollectionAgencia } from "./database";
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_API_KEY,
@@ -21,7 +19,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = initializeAuth(app, {
-  persistence: inMemoryPersistence,
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 });
 
 const database = getFirestore(app);
@@ -33,5 +31,8 @@ createCollection("users", database).catch((error) => console.log({ error }));
 
 // Crear coleccion paquetes
 createCollection("paquetes", database).catch((error) => console.log({ error }));
+
+// Crear coleccion agencia e insertar elemento
+createCollectionAgencia("agencia", database).catch((error) => console.log({ error }));
 
 export { app, auth, database };

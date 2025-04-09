@@ -18,10 +18,13 @@ export default function HeaderPackages({
           justifyContent: "flex-start",
           alignItems: "flex-end",
         }}
-      >        
+      >
+        <Text variant="titleMedium" style={{ fontWeight: 400 }}>
+          Casillero:
+        </Text>
         <Text
           variant="titleLarge"
-          style={{ marginLeft: 5, fontWeight: 600, color: "#1f4396" }}
+          style={{ marginLeft: 5, fontWeight: 600, color: "#ff8a00" }}
         >
           {String(lockerCode)}
         </Text>

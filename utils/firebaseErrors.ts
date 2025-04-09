@@ -15,6 +15,9 @@ enum errorCode {
   "auth/network-request-failed",
   "auth/too-many-requests",
   "auth/internal-error",
+
+  // update password
+  "auth/requires-recent-login"
 }
 
 export default function getCustomErrorMessage(errorCode: errorCode) {
@@ -37,6 +40,8 @@ export default function getCustomErrorMessage(errorCode: errorCode) {
       "Error de red. Verifica tu conexión a internet.",
     "auth/too-many-requests": "Demasiados intentos. Inténtalo más tarde.",
     "auth/internal-error": "Ocurrió un error inesperado. Inténtalo de nuevo.",
+
+    "auth/requires-recent-login": "Inicié sesión e intenté nuevamente"
   };
 
   return errorMessages[errorCode] || "Ocurrió un error inesperado.";

@@ -242,3 +242,32 @@ Si una sección contiene más de 5 elementos aparece un botón de **Ver todos** 
 ***Detalles de un paquete
 
 Al seleccionar un paquete de los listados, se lleva a una página con los detalles del mismo; timeline de los movimientos de paquete, observaciones (modificaciones sobre la vía del envío, error por mal etiquetado u otros errores generales). Tambien se mostrará, sólo si se ha establecido, peso del contenido. Y por último, costo total del envío, este solo aparece si el peso y la tarifa se han establecido anteriormente.
+
+## Perfil
+
+En esta pantalla se puede modificar información personal de usuario, como nombre, apellido, correo y número de teléfono.
+
+Para poder modificar el correo, se necesita habilitar esta función desde Firebase Auth. Ingresando a Authentication, en la sección de **Configuración** aparece un menú de **Acciones del usuario**, allí se debe desmarcar la opción **Protección de enumeración de correo electronico**
+
+```
+Authentication > Configuración > Acciones del Usuario > Protección de enumeración de correo electronico
+```
+
+Al modificar el correo de acceso, el usuario recibe un email notificandole el cambio de correo y con un link para revertirlo
+
+También hay un menú de seguridad donde el usuario puede cambiar su contraseña. 
+
+Aparece un link de contacto que abre la aplicación de Whatsapp. Este número se obtiene de la base de datos, de la tabla agencia, por defecto crea un documento con los siguientes datos: 
+
+```
+Agencia {
+  contacto: "+12224343434",
+  politicaPrivacidad: "https://example.com/polity"
+}
+```
+
+Los cuales pueden ser modificados desde Firestore, por la información que desee. 
+
+Y por último dentro del menú de seguridad aparece un link de **Políticas de privacidad** que redirige a una página externa en el navegador predeterminado. Esta **URL** también de la tabla agencia en Firestore.
+
+Al final aparece un botón para cerrar la sesión del usuario

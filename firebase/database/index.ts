@@ -17,3 +17,15 @@ export const createCollection = async (name: string, database: Firestore) => {
     console.error("Error creando la colección " + name, error);
   }
 };
+
+export const createCollectionAgencia = async (name: string, database: Firestore) => {
+  try {
+    const collectionRef = collection(database, name);
+    const docRef = doc(collectionRef, "default");
+    await setDoc(docRef, { contacto: "+12224343434", politicaPrivacidad: "https://example.com/polity" });
+    console.log("Colección " + name + " creada.");
+    console.log("Agencia creada con número de contacto: +12224343434 y URL de politica de privacidad https://example.com/polity");
+  } catch (error) {
+    console.error("Error creando la colección " + name, error);
+  }
+};

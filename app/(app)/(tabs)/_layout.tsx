@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { Platform, Text } from "react-native";
+import { Platform } from "react-native";
 
 export default function TabsLayout() {
   return (
@@ -32,43 +32,22 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: "Paquetes",
-          tabBarIcon: ({ focused }) => (
-            <Feather size={28} name="package" color={focused ? "#1f4396" : "grey"} />
+          tabBarIcon: ({ color }) => (
+            <Feather size={28} name="package" color={color} />
           ),
           tabBarIconStyle: { marginBottom: 5 },
           tabBarLabelStyle: { fontSize: 12 },
-          tabBarLabel(props) {
-            return (
-              <Text
-                {...props}
-                style={{
-                  fontSize: 12,
-                  color: props.focused ? "#1f4396" : "grey",
-                }}
-              />
-            );
-          },
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Perfil",
-          tabBarIcon: ({ focused }) => (
-            <Feather size={28} name="user" color={focused ? "#1f4396" : "grey"} />
+          tabBarIcon: ({ color }) => (
+            <Feather size={28} name="user" color={color} />
           ),
           tabBarIconStyle: { marginBottom: 5 },
-          tabBarLabel(props) {
-            return (
-              <Text
-                {...props}
-                style={{
-                  fontSize: 12,
-                  color: props.focused ? "#1f4396" : "grey",
-                }}
-              />
-            );
-          },
+          tabBarLabelStyle: { fontSize: 12 },
         }}
       />
     </Tabs>

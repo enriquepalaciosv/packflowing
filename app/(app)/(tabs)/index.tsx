@@ -32,7 +32,7 @@ export default function Index() {
   if (!packages) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text variant="labelSmall">Cargando...</Text>
+        <Text variant="labelSmall">Loading...</Text>
       </View>
     );
   }
