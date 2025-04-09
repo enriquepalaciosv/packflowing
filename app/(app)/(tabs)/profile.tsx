@@ -8,6 +8,7 @@ import SelectCountryCodes from "../../../components/SelectCountryCodes";
 import { useSession } from "../../../contexts/authentication";
 import getInfoAgencia from "../../../hooks/useGetInfoAgencia";
 import useProfileFormik from "../../../hooks/useProfileFormik";
+import ReauthenticateModal from '../../../components/ReauthenticateModal';
 
 export default function Profile() {
   const { contacto, politicaPrivacidad } = getInfoAgencia();
@@ -23,10 +24,16 @@ export default function Profile() {
     handleSubmit,
     resetForm
   } = useProfileFormik(session);
-
+  const [reauthVisible, setReauthVisible] = useState(false);
   const [visible, setVisible] = useState(false);
   const handleModal = () => setVisible(!visible);
-
+  const handleSubmitForm = () => {
+    if(session.email !== values.email) {
+      setReauthVisible(true);
+    } else {
+      handleSubmit();
+    }
+  }
   const handleContact = () => {
     const url = `https://wa.me/${contacto}`;
     Linking.openURL(url);
@@ -36,6 +43,14 @@ export default function Profile() {
 
   return (
     <SafeAreaView>
+      <ReauthenticateModal
+        visible={reauthVisible}
+        onClose={() => setReauthVisible(false)}
+        onSuccess={() => {
+          setReauthVisible(false);
+          handleSubmit()
+        }}
+      />
       <ChangePasswordModal visible={visible} hideModal={handleModal} />
       <ScrollView>
         <View style={styles.container}>
@@ -116,7 +131,7 @@ export default function Profile() {
             </Button>
             <Button
               mode="contained"
-              onPress={(e: any) => handleSubmit(e)}
+              onPress={handleSubmitForm}
               loading={loading}
               disabled={loading}
               style={styles.button}
