@@ -1,12 +1,9 @@
-import { useRouter } from "expo-router";
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
-import { User } from "../interfaces/user";
 import { updatePasswordService } from "../firebase/auth/services";
 
-export default function useChangePasswordFormik() {
-    const router = useRouter();
+export default function useChangePasswordFormik(hideModal: () => void) {
     const [loading, setLoading] = useState(false);
 
     const validationSchema = Yup.object().shape({
@@ -24,17 +21,18 @@ export default function useChangePasswordFormik() {
             repeatPassword: ""
         },
         validationSchema,
-        onSubmit: async (values) => {
+        onSubmit: async (values, { resetForm }) => {
             setLoading(true);
 
             try {
                 await updatePasswordService(values.password);
-                router.back();
+                resetForm();
             } catch (err) {
                 console.log({ err })
+            } finally {
+                setLoading(false);
+                hideModal();
             }
-
-            setLoading(false);
         },
     });
 

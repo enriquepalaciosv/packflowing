@@ -38,9 +38,9 @@ export default function useProfileFormik(session?: User) {
                 updateSession(values)
             } catch (err) {
                 console.log({ err })
+            } finally {
+                setLoading(false);
             }
-
-            setLoading(false);
         },
     });
 

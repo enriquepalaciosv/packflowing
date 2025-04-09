@@ -13,15 +13,12 @@ export default function ChangePasswordModal({ visible, hideModal }: { visible: b
         handleBlur,
         handleSubmit,
         resetForm
-    } = useChangePasswordFormik();
+    } = useChangePasswordFormik(hideModal);
     const handleBack = () => {
         resetForm();
         hideModal();
     }
-    const submit = () => {
-        handleSubmit();
-        hideModal();
-    }
+    const submit = () => handleSubmit();
 
     return (
         <Portal>
