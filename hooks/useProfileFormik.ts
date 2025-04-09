@@ -1,12 +1,12 @@
-import { useRouter } from "expo-router";
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
-import { registerUserService, updateUserService } from "../firebase/auth/services";
+import { useSession } from "../contexts/authentication";
+import { updateUserService } from "../firebase/auth/services";
 import { User } from "../interfaces/user";
 
 export default function useProfileFormik(session?: User) {
-    const router = useRouter();
+    const { updateSession } = useSession();
     const [loading, setLoading] = useState(false);
 
     const validationSchema = Yup.object().shape({
@@ -34,7 +34,8 @@ export default function useProfileFormik(session?: User) {
             setLoading(true);
 
             try {
-                await updateUserService(values)
+                await updateUserService(values);
+                updateSession(values)
             } catch (err) {
                 console.log({ err })
             }

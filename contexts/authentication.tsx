@@ -14,10 +14,12 @@ const AuthContext = createContext<{
   }) => void;
   signOut: () => void;
   session?: User | null;
+  updateSession: (user: Partial<User>) => void;
   isLoading: boolean;
 }>({
   signIn: () => null,
   signOut: () => null,
+  updateSession: () => null,
   session: null,
   isLoading: false,
 });
@@ -64,6 +66,13 @@ export function SessionProvider({ children }: PropsWithChildren) {
         },
         signOut: () => {
           setSession(null);
+        },
+        updateSession: async (updatedFields: Partial<User>) => {
+          if (!session) return;
+    
+          const updatedSession = { ...session, ...updatedFields };
+          await SecureStore.setItemAsync("session", JSON.stringify(updatedSession));
+          setSession(updatedSession);
         },
         session,
         isLoading,
