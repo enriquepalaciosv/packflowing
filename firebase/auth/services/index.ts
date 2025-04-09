@@ -5,6 +5,7 @@ import {
   getAuth,
   updateEmail,
   updatePassword,
+  updateCurrentUser,
 } from "firebase/auth";
 import {
   collection,
@@ -130,11 +131,7 @@ export async function updateUserService(user: Partial<UserRegister>) {
     if (auth.currentUser.email !== email) {
       await updateEmail(auth.currentUser, email);
     }
-  } catch (err) {
-    console.error("Error al actualizar en Auth:", err.message);
-  }
 
-  try {
     const userRef = doc(database, "users", auth.currentUser.uid);
     await updateDoc(userRef, {
       name,
@@ -146,7 +143,7 @@ export async function updateUserService(user: Partial<UserRegister>) {
 
     Toast.success("Perfil actualizado con éxito");
   } catch (err) {
-    console.error("Error al actualizar en Firestore:", err.message);
+    console.error("Error al actualizar en Auth:", err.message);
   }
 }
 
