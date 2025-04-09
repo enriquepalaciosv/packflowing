@@ -18,6 +18,10 @@ export default function ChangePasswordModal({ visible, hideModal }: { visible: b
         resetForm();
         hideModal();
     }
+    const submit = () => {
+        handleSubmit();
+        hideModal();
+    }
 
     return (
         <Portal>
@@ -63,7 +67,7 @@ export default function ChangePasswordModal({ visible, hideModal }: { visible: b
                     </Button>
                     <Button
                         mode="contained"
-                        onPress={(e: any) => handleSubmit(e)}
+                        onPress={submit}
                         loading={loading}
                         disabled={loading}
                         style={styles.button}
