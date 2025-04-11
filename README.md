@@ -271,3 +271,22 @@ Los cuales pueden ser modificados desde Firestore, por la información que desee
 Y por último dentro del menú de seguridad aparece un link de **Políticas de privacidad** que redirige a una página externa en el navegador predeterminado. Esta **URL** también de la tabla agencia en Firestore.
 
 Al final aparece un botón para cerrar la sesión del usuario
+
+
+## Chat IA 
+
+Para configurar este chat, el primer paso es obtener la API Key para poder conectarnos a los modelos de AI de google. Ingresando a [AI Studio](https://aistudio.google.com/app/apikey) 
+
+Una vez obtenida la **API Key**, se debe agregar al archivo como variable de entorno:
+
+```
+EXPO_PUBLIC_GOOGLE_API_KEY=
+```
+
+Este chat sólo se muestra si la agencia ha habilitado este servicio 
+
+```
+agencia.AI = true
+```
+
+La AI recibe un prompt con los paquetes del usuario logueado y se le indica que brinde información acerca de estos paquetes o cualquier duda que le consulte el usuario
