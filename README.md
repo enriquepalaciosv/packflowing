@@ -272,7 +272,6 @@ Y por último dentro del menú de seguridad aparece un link de **Políticas de p
 
 Al final aparece un botón para cerrar la sesión del usuario
 
-
 ## Chat IA 
 
 Para configurar este chat, el primer paso es obtener la API Key para poder conectarnos a los modelos de AI de google. Ingresando a [AI Studio](https://aistudio.google.com/app/apikey) 
