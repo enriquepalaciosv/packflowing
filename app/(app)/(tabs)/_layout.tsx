@@ -1,55 +1,70 @@
 import { Feather } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { Platform } from "react-native";
+import ButtonChatIa from "../../../components/ButtonChatIa";
+import { useEffect, useState } from "react";
+import { getAgenciaByDefault } from "../../../firebase/agencia/services";
 
 export default function TabsLayout() {
+  const [ai, setAI] = useState(null);
+
+  useEffect(() => {
+    getAgenciaByDefault()
+      .then((response: { AI: boolean }) => setAI(response.AI))
+      .catch(error => console.log({ error }))
+  }, [])
+
+  if (ai === null) return null;
+
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: Platform.select({
-          ios: {
-            position: "absolute",
-            height: "auto",
-            paddingHorizontal: 75,
+    <>
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: Platform.select({
+            ios: {
+              position: "absolute",
+              height: "auto",
+            },
+            android: {
+              position: "absolute",
+              height: 60,
+              paddingBottom: 10,
+            },
+            default: {
+              height: "auto",
+            },
+          }),
+          tabBarItemStyle: {
+            width: 20,
+            marginHorizontal: 20,
           },
-          android: {
-            position: "absolute",
-            height: 60,
-            paddingBottom: 10,
-          },
-          default: {
-            height: "auto",
-          },
-        }),
-        tabBarItemStyle: {
-          width: 20,
-          marginHorizontal: 20,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Paquetes",
-          tabBarIcon: ({ color }) => (
-            <Feather size={28} name="package" color={color} />
-          ),
-          tabBarIconStyle: { marginBottom: 5 },
-          tabBarLabelStyle: { fontSize: 12 },
         }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Perfil",
-          tabBarIcon: ({ color }) => (
-            <Feather size={28} name="user" color={color} />
-          ),
-          tabBarIconStyle: { marginBottom: 5 },
-          tabBarLabelStyle: { fontSize: 12 },
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Paquetes",
+            tabBarIcon: ({ color }) => (
+              <Feather size={28} name="package" color={color} />
+            ),
+            tabBarIconStyle: { marginBottom: 5 },
+            tabBarLabelStyle: { fontSize: 12 },
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: "Perfil",
+            tabBarIcon: ({ color }) => (
+              <Feather size={28} name="user" color={color} />
+            ),
+            tabBarIconStyle: { marginBottom: 5 },
+            tabBarLabelStyle: { fontSize: 12 },
+          }}
+        />
+      </Tabs>
+      {ai && <ButtonChatIa />}
+    </>
   );
 }
