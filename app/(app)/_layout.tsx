@@ -1,7 +1,7 @@
 import { Redirect, Stack } from "expo-router";
 import { Text } from "react-native";
 import { useSession } from "../../contexts/authentication";
-import { PaperProvider } from 'react-native-paper';
+import { MD3LightTheme, PaperProvider } from 'react-native-paper';
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
@@ -9,7 +9,7 @@ export default function AppLayout() {
   if (isLoading) return <Text>Loading...</Text>;
   if (!session) return <Redirect href="/sign-in" />;
   return (
-    <PaperProvider>
+    <PaperProvider theme={MD3LightTheme}>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen
           name="(tabs)"
