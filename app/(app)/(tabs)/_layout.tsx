@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 import ButtonChatIa from "../../../components/ButtonChatIa";
 import { useEffect, useState } from "react";
 import { getAgenciaByDefault } from "../../../firebase/agencia/services";
@@ -11,8 +11,8 @@ export default function TabsLayout() {
   useEffect(() => {
     getAgenciaByDefault()
       .then((response: { AI: boolean }) => setAI(response.AI))
-      .catch(error => console.log({ error }))
-  }, [])
+      .catch((error) => console.log({ error }));
+  }, []);
 
   if (ai === null) return null;
 
@@ -24,7 +24,7 @@ export default function TabsLayout() {
           tabBarStyle: Platform.select({
             ios: {
               position: "absolute",
-              height: "auto",
+              height: 60,
             },
             android: {
               position: "absolute",
@@ -32,7 +32,7 @@ export default function TabsLayout() {
               paddingBottom: 10,
             },
             default: {
-              height: "auto",
+              height: 60,
             },
           }),
           tabBarItemStyle: {
@@ -49,7 +49,7 @@ export default function TabsLayout() {
               <Feather size={28} name="package" color={color} />
             ),
             tabBarIconStyle: { marginBottom: 5 },
-            tabBarLabelStyle: { fontSize: 12 },
+            tabBarLabelStyle: { fontSize: 12, fontWeight: 500 },
           }}
         />
         <Tabs.Screen
