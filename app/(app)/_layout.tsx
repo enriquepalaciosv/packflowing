@@ -1,10 +1,20 @@
 import { Redirect, Stack } from "expo-router";
 import { Text } from "react-native";
 import { useSession } from "../../contexts/authentication";
-import { MD3LightTheme, PaperProvider } from 'react-native-paper';
+import { MD3LightTheme, PaperProvider } from "react-native-paper";
+import useFcmToken from "../../firebase/messaging";
+import { useEffect } from "react";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
+  console.log({ session });
+  const getToken = useFcmToken(session?.id);
+
+  useEffect(() => {
+    if (!session?.token) {
+      getToken(); // 👉 Acá ejecutás la función que devuelve el hook
+    }
+  }, []);
 
   if (isLoading) return <Text>Loading...</Text>;
   if (!session) return <Redirect href="/sign-in" />;

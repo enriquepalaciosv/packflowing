@@ -6,4 +6,5 @@ export interface User {
   countryCode: string;
   phone: string;
   lockerCode: string;
+  token: string;
 }

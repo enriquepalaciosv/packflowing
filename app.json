@@ -8,13 +8,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.slisandro.packflowing"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.slisandro.packflowing"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +33,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "765cdc78-a0ce-4022-8dee-550b937c9574"
       }
     },
     "owner": "slisandro"

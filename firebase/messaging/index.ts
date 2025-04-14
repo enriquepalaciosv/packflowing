@@ -1,20 +1,45 @@
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import app from "..";
-import Constants from "expo-constants";
+import * as Notifications from "expo-notifications";
+import { doc, setDoc } from "firebase/firestore";
+import { useCallback } from "react";
+import { database } from "..";
+import { messaging } from "react-native-firebase";
 
-const messaging = getMessaging(app);
+export default function useFcmToken(id: string) {
+  return useCallback(async () => {
+    try {
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: false,
+        }),
+      });
 
-export const requestPermission = async () => {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-        const fcmToken = await getToken(messaging, {
-            vapidKey: Constants.expoConfig.extra.vapidKey,
-        });
-        console.log("FCM Token:", fcmToken);
-    } else {
-        console.log("Permiso denegado para notificaciones");
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== "granted") {
+        alert("Permission not granted for push notifications!");
+        return null;
+      }
+
+      // let token;
+
+      // console.log("Using FCM Token");
+      // const { data } = await Notifications.getDevicePushTokenAsync();
+      // token = data;
+
+      const token = await messaging().getToken();
+      console.log("📱 FCM Token:", token);
+
+      // console.log("Push token:", token);
+
+      // Guardar token el firestore
+      const userRef = doc(database, "users", id);
+      await setDoc(userRef, { token }, { merge: true });
+
+      return token;
+    } catch (error) {
+      console.error("Error getting push token:", error);
+      return null;
     }
-};
-
-
-export default messaging;
+  }, []);
+}
