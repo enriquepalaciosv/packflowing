@@ -5,7 +5,6 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
   TouchableOpacity,
   FlatList,
 } from "react-native";
@@ -142,6 +141,7 @@ export default function ChatIaModal({ visible, hideModal }: ChatIaProps) {
               placeholder="Escribí tu pregunta..."
               value={question}
               onChangeText={setQuestion}
+              placeholderTextColor={"#888888"}
             />
             <Button mode="contained" onPress={handleAsk} disabled={loading}>
               Enviar
