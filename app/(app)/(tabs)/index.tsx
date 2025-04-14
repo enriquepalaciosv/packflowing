@@ -42,17 +42,13 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <HeaderPackages name={session.name} lockerCode={session.lockerCode} />
-      {
-        allEmpty ? (
-          <ListyEmpty />
-        ) : <ListPackages
-          isLoading={isLoading}
-          packages={packages}
-          session={session}
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-        />
-      }
+      <ListPackages
+        isLoading={isLoading}
+        packages={packages}
+        session={session}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
     </SafeAreaView >
   );
 };
@@ -64,14 +60,17 @@ const ListPackages = ({ isLoading, packages, session, refreshing, onRefresh }) =
     <RefreshAnimation>
       <SectionList
         keyExtractor={(_, index) => index.toString()}
-        sections={packages.map((section) => ({
-          ...section,
-          total: section.data.length, // Número total de paquetes
-          totalData: section.data, // Listado completo de paquetes
-          data: section.data.slice(0, 5), // Solo los cinco más recientes
-        }))}
+        sections={
+          packages.every((item) => item.data.length === 0)
+            ? []
+            : packages.map((section) => ({
+              ...section,
+              total: section.data.length, // Número total de paquetes
+              totalData: section.data, // Listado completo de paquetes
+              data: section.data.slice(0, 5), // Solo los cinco más recientes
+            }))}
         ListHeaderComponent={null}
-        ListEmptyComponent={() => <></>}
+        ListEmptyComponent={() => <ListyEmpty />}
         renderSectionHeader={({ section }) =>
           section.total ? (
             <View
@@ -110,7 +109,7 @@ const ListPackages = ({ isLoading, packages, session, refreshing, onRefresh }) =
             name={session.name + " " + session.lastName}
           />
         )}
-        contentContainerStyle={styles.sectionList}
+        contentContainerStyle={[styles.sectionList, { flexGrow: 1 }]}
         refreshing={isLoading}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

@@ -2,6 +2,7 @@ import { Redirect, Stack } from "expo-router";
 import { Text } from "react-native";
 import { useSession } from "../../contexts/authentication";
 import { MD3LightTheme, PaperProvider } from 'react-native-paper';
+
 export default function AppLayout() {
   const { session, isLoading } = useSession();
 
