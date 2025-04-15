@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "336707028976",
+    "project_id": "packflowing-3ee65",
+    "storage_bucket": "packflowing-3ee65.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336707028976:android:ffb0d2e113d9735abe3f35",
+        "android_client_info": {
+          "package_name": "com.slisandro.packflowing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEkvd-i6cR-HUzUTwfls42W0PEClfJsRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
