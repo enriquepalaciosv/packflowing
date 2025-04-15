@@ -2,7 +2,7 @@ import * as Notifications from "expo-notifications";
 import { doc, setDoc } from "firebase/firestore";
 import { useCallback } from "react";
 import { database } from "..";
-import { messaging } from "react-native-firebase";
+import messaging from "@react-native-firebase/messaging";
 
 export default function useFcmToken(id: string) {
   return useCallback(async () => {
