@@ -7,13 +7,15 @@ import { useEffect } from "react";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
-  console.log({ session });
-  const getToken = useFcmToken(session?.id);
 
   useEffect(() => {
-    if (!session?.token) {
-      getToken(); // 👉 Acá ejecutás la función que devuelve el hook
-    }
+    const getToken = async () => {
+      if (!session?.token) {
+        useFcmToken(session?.id); // 👉 Acá ejecutás la función que devuelve el hook
+      }
+    };
+
+    getToken();
   }, []);
 
   if (isLoading) return <Text>Loading...</Text>;

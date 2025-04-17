@@ -1,45 +1,25 @@
-import * as Notifications from "expo-notifications";
-import { doc, setDoc } from "firebase/firestore";
-import { useCallback } from "react";
-import { database } from "..";
 import messaging from "@react-native-firebase/messaging";
+import firestore from "@react-native-firebase/firestore";
+import { Alert } from "react-native";
 
-export default function useFcmToken(id: string) {
-  return useCallback(async () => {
-    try {
-      Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-          shouldShowAlert: true,
-          shouldPlaySound: true,
-          shouldSetBadge: false,
-        }),
-      });
+export default async function useFcmToken(id: string) {
+  // return useCallback(async () => {
+  try {
+    const token = await messaging().getToken();
+    console.log("📱 FCM Token:", token);
 
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== "granted") {
-        alert("Permission not granted for push notifications!");
-        return null;
-      }
+    // console.log("Push token:", token);
 
-      // let token;
+    // Guardar token el firestore
+    const userRef = firestore().collection("users").doc(id);
 
-      // console.log("Using FCM Token");
-      // const { data } = await Notifications.getDevicePushTokenAsync();
-      // token = data;
+    await userRef.set({ token }, { merge: true });
 
-      const token = await messaging().getToken();
-      console.log("📱 FCM Token:", token);
-
-      // console.log("Push token:", token);
-
-      // Guardar token el firestore
-      const userRef = doc(database, "users", id);
-      await setDoc(userRef, { token }, { merge: true });
-
-      return token;
-    } catch (error) {
-      console.error("Error getting push token:", error);
-      return null;
-    }
-  }, []);
+    Alert.alert(token);
+    return token;
+  } catch (error) {
+    console.error("Error getting push token:", error);
+    return null;
+  }
+  // }, []);
 }
