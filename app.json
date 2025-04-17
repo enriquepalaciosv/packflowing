@@ -8,8 +8,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
-      "googleServicesFile": "./GoogleServices-Info.plist",
+      "supportsTablet": true,      
+      "googleServicesFile": "./GoogleService-Info.plist",
       "bundleIdentifier": "com.slisandro.packflowing"
     },
     "android": {
