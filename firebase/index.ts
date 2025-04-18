@@ -1,9 +1,6 @@
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
-import {
-  getReactNativePersistence,
-  initializeAuth
-} from "firebase/auth";
+import { getReactNativePersistence, initializeAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { createCollection, createCollectionAgencia } from "./database";
 
@@ -19,7 +16,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
 const database = getFirestore(app);
@@ -33,6 +30,8 @@ createCollection("users", database).catch((error) => console.log({ error }));
 createCollection("paquetes", database).catch((error) => console.log({ error }));
 
 // Crear coleccion agencia e insertar elemento
-createCollectionAgencia("agencia", database).catch((error) => console.log({ error }));
+createCollectionAgencia("agencia", database).catch((error) =>
+  console.log({ error })
+);
 
 export { app, auth, database };
