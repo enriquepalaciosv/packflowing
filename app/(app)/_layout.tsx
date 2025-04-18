@@ -1,12 +1,32 @@
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Stack, useRouter } from "expo-router";
 import { Text } from "react-native";
 import { useSession } from "../../contexts/authentication";
 import { MD3LightTheme, PaperProvider } from "react-native-paper";
+import messaging from "@react-native-firebase/messaging";
 import useFcmToken from "../../firebase/messaging";
 import { useEffect } from "react";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleNotification = (remoteMessage) => {
+      if (remoteMessage?.data?.screen && session) {
+        const { screen, id } = remoteMessage.data;
+        router.push({
+          pathname: screen,
+          params: { id },
+        });
+      }
+    };
+
+    const unsubscribe = messaging().onNotificationOpenedApp(handleNotification);
+
+    messaging().getInitialNotification().then(handleNotification);
+
+    return unsubscribe;
+  }, [session]);
 
   useEffect(() => {
     const getToken = async () => {
