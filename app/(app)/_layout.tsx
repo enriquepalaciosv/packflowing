@@ -4,15 +4,23 @@ import { useSession } from "../../contexts/authentication";
 import { MD3LightTheme, PaperProvider } from "react-native-paper";
 import useFcmToken from "../../firebase/messaging";
 import { useEffect } from "react";
+import useNotificationListener from "../../hooks/useNotificationListener";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
-  const getToken = useFcmToken(session?.id);
+
+  useNotificationListener();
 
   useEffect(() => {
-    if (!session?.token) {
-      getToken();
-    }
+    const getToken = async () => {
+      // Si hay una sesión activa
+      // Obtengo el token y lo guardo en la ddbb
+      if (!session?.token) {
+        useFcmToken(session?.id);
+      }
+    };
+
+    getToken();
   }, []);
 
   if (isLoading) return <Text>Loading...</Text>;
