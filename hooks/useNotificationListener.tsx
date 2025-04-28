@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import messaging from "@react-native-firebase/messaging";
 import { useRouter } from "expo-router";
+import * as Notifications from "expo-notifications";
 import { Alert } from "react-native";
 
 export default function useNotificationListener() {
@@ -14,6 +15,34 @@ export default function useNotificationListener() {
       });
     }
   };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    function redirect(notification: Notifications.Notification) {
+      if (notification?.request?.content?.data) {
+        handleRedirect(notification.request.content.data);
+      }
+    }
+
+    Notifications.getLastNotificationResponseAsync().then((response) => {
+      if (!isMounted || !response?.notification) {
+        return;
+      }
+      redirect(response?.notification);
+    });
+
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        redirect(response.notification);
+      }
+    );
+
+    return () => {
+      isMounted = false;
+      subscription.remove();
+    };
+  }, []);
 
   useEffect(() => {
     // App en foreground
@@ -44,15 +73,6 @@ export default function useNotificationListener() {
         }
       }
     );
-
-    // App abierta desde cerrada (estado killed)
-    messaging()
-      .getInitialNotification()
-      .then((remoteMessage) => {
-        if (remoteMessage?.data) {
-          handleRedirect(remoteMessage.data);
-        }
-      });
 
     return () => {
       unsubscribeOnMessage();
