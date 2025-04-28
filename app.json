@@ -8,9 +8,12 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,      
+      "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.slisandro.packflowing"
+      "bundleIdentifier": "com.slisandro.packflowing",
+      "infoPlist": {
+        "NSUserNotificationUsageDescription": "Esta app necesita enviarte notificaciones para mantenerte informado." 
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +21,10 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.slisandro.packflowing"
+      "package": "com.slisandro.packflowing",
+      "permissions": [
+        "NOTIFICATIONS"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -28,7 +34,8 @@
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      "@react-native-firebase/app"
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging"
     ],
     "experiments": {
       "typedRoutes": true

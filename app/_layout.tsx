@@ -5,10 +5,16 @@ import { SessionProvider } from "../contexts/authentication";
 import { useSplashAnimation } from "../hooks/useSplashAnimation";
 import { useTheme } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
+import { requestPushNotificationPermission } from "../hooks/requestPushNotificationPermission";
 
 export default function Root() {
   const { opacity, isReady } = useSplashAnimation();
   const { dark } = useTheme();
+
+  useEffect(() => {
+    requestPushNotificationPermission();
+  }, []);
 
   if (!isReady) {
     return (
