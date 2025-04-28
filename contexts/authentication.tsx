@@ -1,4 +1,9 @@
-import { createContext, useContext, useEffect, type PropsWithChildren } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  type PropsWithChildren,
+} from "react";
 import { useStorageState } from "../hooks/useStorageState";
 import { User } from "../interfaces/user";
 import { onAuthStateChanged } from "firebase/auth";
@@ -11,6 +16,7 @@ const AuthContext = createContext<{
     name: string;
     lastName: string;
     lockerCode: string;
+    token: string;
   }) => void;
   signOut: () => void;
   session?: User | null;
@@ -57,7 +63,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
     return unsubscribe;
   }, []);
 
-
   return (
     <AuthContext.Provider
       value={{
@@ -69,9 +74,12 @@ export function SessionProvider({ children }: PropsWithChildren) {
         },
         updateSession: async (updatedFields: Partial<User>) => {
           if (!session) return;
-    
+
           const updatedSession = { ...session, ...updatedFields };
-          await SecureStore.setItemAsync("session", JSON.stringify(updatedSession));
+          await SecureStore.setItemAsync(
+            "session",
+            JSON.stringify(updatedSession)
+          );
           setSession(updatedSession);
         },
         session,

@@ -1,10 +1,27 @@
 import { Redirect, Stack } from "expo-router";
 import { Text } from "react-native";
 import { useSession } from "../../contexts/authentication";
-import { MD3LightTheme, PaperProvider } from 'react-native-paper';
+import { MD3LightTheme, PaperProvider } from "react-native-paper";
+import useFcmToken from "../../firebase/messaging";
+import { useEffect } from "react";
+import useNotificationListener from "../../hooks/useNotificationListener";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
+
+  useNotificationListener();
+
+  useEffect(() => {
+    const getToken = async () => {
+      // Si hay una sesión activa
+      // Obtengo el token y lo guardo en la ddbb
+      if (!session?.token) {
+        useFcmToken(session?.id);
+      }
+    };
+
+    getToken();
+  }, []);
 
   if (isLoading) return <Text>Loading...</Text>;
   if (!session) return <Redirect href="/sign-in" />;

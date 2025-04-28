@@ -1,20 +1,20 @@
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import app from "..";
-import Constants from "expo-constants";
+import firestore from "@react-native-firebase/firestore";
+import messaging from "@react-native-firebase/messaging";
 
-const messaging = getMessaging(app);
+export default async function useFcmToken(id: string) {
+  try {
+    const token = await messaging().getToken();
 
-export const requestPermission = async () => {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-        const fcmToken = await getToken(messaging, {
-            vapidKey: Constants.expoConfig.extra.vapidKey,
-        });
-        console.log("FCM Token:", fcmToken);
-    } else {
-        console.log("Permiso denegado para notificaciones");
+    if (id) {
+      // Guardar token el firestore
+      const doc = firestore().collection("users").doc(id);
+
+      await doc.set({ token }, { merge: true });
+
+      return token;
     }
-};
-
-
-export default messaging;
+  } catch (error) {
+    console.error("Error getting push token:", error);
+    return null;
+  }
+}
