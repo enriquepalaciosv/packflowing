@@ -43,11 +43,7 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "7f9c7c90-4524-464a-bb7d-3659d858e194"
       }
-    },
-    "owner": "slisandro1"
+    }
   }
 }
