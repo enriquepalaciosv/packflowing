@@ -328,6 +328,45 @@ Para poder recibir notificaciones, primero se debe obtener el **token** FCM. Se 
 
 Particularmente usé **EAS**, un servicio de Expo para crear build tanto para Android como para iOS (gratuito para Android, en iOS sólo si tienes cuenta de desarrollo para publicar aplicaciones)
 
+### Crear build para Android con EAS 
+
+Lo primero antes de crear cualquier build es:
+ 
+* Contar con una cuenta en [EAS](https://expo.dev/signup)
+* Instalar globalmente EAS Cli
+```
+npm install -g eas-cli
+```
+
+Luego, se debe inicial sesión con el comando
+```
+eas login
+```
+Este comando te va a pedir email y contraseña (son las credenciales del paso 1)
+
+Y por último, enlazar el proyecto con EAS con el comando 
+```
+eas init
+```
+Este comando agrega al archivo **app.json** la propiedad **projectId** y **owner** y crea el archivo **eas.json**
+
+* El último prerequisito es contar con una cuenta de Developer de Apple
+
+El comando para comenzar a construir el build es 
+
+iOS:
+```
+eas build --platform ios --profile development
+```
+
+Te va a pedir las credenciales de la cuenta de Developer de Apple 
+
+Android
+```
+eas build --platform android --profile development
+```
+
+Este comando comienza a construir el build, una vez finalizado muestra en consola un QR, escanear con un dispositvo física para comenzar la instalación de la app
 
 ### Enviar notificaciones desde Firebase
 
