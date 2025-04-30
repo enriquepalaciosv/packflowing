@@ -289,3 +289,91 @@ agencia.AI = true
 ```
 
 La AI recibe un prompt con los paquetes del usuario logueado y se le indica que brinde información acerca de estos paquetes o cualquier duda que le consulte el usuario
+
+## Notificaciones Push
+
+Se debe realizar una serie de pasos antes de poder probar las notificaciones desde Firebase Messaging Cloud:
+El primero es registrar las aplicaciones tanto para iOS como para Android, esto se realiza desde la configuración del proyecto, en el menú de General al finalizar aparece una sección con **Tus apps** 
+
+```
+Configuración del Proyecto > General > Tus apps
+```
+
+Solo importante al registrar la app es el ID del paquete para Apple y Nombre del paquete para Android, ya que se utilizan para configurar el archivo **app.json** y así generar los SDK.
+
+Una vez registradas las apps, descargar el archivo **google-services.json.** para Android y **GoogleService-Info.plist** para iOS. Estos dos archivos deben ir en la raíz del proyecto (Mismo nivel que **app.json**)
+
+El siguiente paso es configurar el archivo **app.json** para generar los prebuild. Se debe ubicar el objecto **ios** y **android**, que debe verse de la siguiente manera: 
+
+```
+"ios": {
+  "supportsTablet": true,      
+  "googleServicesFile": "./GoogleService-Info.plist", # Ubicación del archivo con las credenciales, si esta en la raíz del proyecto, debe quedar igual
+  "bundleIdentifier": "com.example.packflowing" # Acá iría el id del paquete para iOS que elegiste al registrar la app
+},
+"android": {
+  "adaptiveIcon": ...,
+  "googleServicesFile": "./google-services.json", # Ubicación del archivo con las credenciales, si esta en la raíz del proyecto, debe quedar igual
+  "package": "com.example.packflowing" # Acá iría el nombre del paquete para Android que elegiste al registrar la app
+}
+```
+Luego de eso, puedes generar el prebuild de las app con el comando 
+
+```
+npx expo prebuild
+```
+Este comando genera las carpetas **/ios** y **/android**
+
+Para poder recibir notificaciones, primero se debe obtener el **token** FCM. Se agregó un custom hook para obtener el token y lo guarda dentro de la base de datos para poder volver a enviarle notificaciones al usuario. Este codigo utiliza **@react-native-firebase** que es código nativo, por lo que se necesita crear un build para poder obtener este token.
+
+Particularmente usé **EAS**, un servicio de Expo para crear build tanto para Android como para iOS (gratuito para Android, en iOS sólo si tienes cuenta de desarrollo para publicar aplicaciones)
+
+
+### Enviar notificaciones desde Firebase
+
+Una vez instalada la app en tu dispositivo físico, debes loguearte y verificar que el token se guardo exitosamente en la base de datos para el usuario logueado. Ya teniendo este token se puede enviar notificaciones desde la consola de Firebase (esta funcionalidad es limitada, ya que solo muestra la notificación pero no se puede interactuar con ella, por ejemplo que rediriga a la pantalla de detalles)
+
+```
+Messaging > Crear la primera campaña 
+```
+
+Se puede enviar notificaciones **Mensajes de Firebase Notifications** cuando la app está cerrada, o **Mensajes desde la app de Firebase** cuando la app está abierta y en primer plano
+
+Para cualquiera de las dos opciones, lleva a la misma pantalla donde podes editar **titulo**, **texto de la notificación** y **imagen de la notificación**. Para enviar una notificación, hacer click en **Enviar mensaje de prueba**, esto abre un modal donde pide el token FCM, pegar allí y hacer click en **Probar**
+
+
+### Enviar notificaciones personalizadas 
+
+Primero se debe obtener el archivo con las credenciales de la cuenta de servicios. Se debe ingresar desde Firebase, a **Configuración de proyecto** y al menú **Cuentas de Servicio**, deslizar hasta el final y hacer click en **Generar nueva clave privada**. Esto descarga un archivo **.json** que sirve para conectarse a los servicios de Firebase desde la libreria **firebase-admin**. Agregar este archivo a la raíz del proyecto
+
+```
+Configuración del Proyecto > Cuentas del Servicio > Generar nueva clave privada
+```
+
+Para enviar notificaciones que permitan al usuario acceder a la pantalla de detalles, se debe modificar el archivo **sendNotificationTest.ts**.
+
+Primero modificar la línea 2, para que apunte al archivo **.json** descargando anteriormente. Luego, dentro del objeto **message**, **token** debe ser el mismo que el de la base de datos para el usuario que quieres enviar la notificación, **title** y **body** puede personalizarlo a tu gusto. Y el **id** debe coincidir con algún paquete que tenga registrado ese usuario (verificar en la base de datos que exista), por ejemplo 
+
+```
+{
+  token: "",
+
+  notification: {
+    title: "Paquete está listo para retirar",
+    body: "Su paquete x está listo para retirar. Ver más detalles",
+  },
+
+  data: {
+    screen: "detailPackage",
+    id: "PKG_ENTREGADO_X",
+  },
+}
+```
+
+Ejecutar este código con el comando
+
+```
+npx ts-node sendNotificationTest.ts
+```
+
+Esto debería mostrar en consola que la notificación fue enviada y deberías recibirla en tu dispositivo. Al hacer click, debe ingresar a la pantalla de detalles del producto especifico
