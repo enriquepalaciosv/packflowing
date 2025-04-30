@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import serviceAccount from "";
+import serviceAccount from "./packflowing-firebase-adminsdk-fbsvc-89edd6da3e.json";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
@@ -7,11 +7,10 @@ admin.initializeApp({
 
 export const sendNotification = async () => {
   const message = {
-    token: "",
-
+    token: process.env.USER_NOTIFICATION_TOKEN,            
     notification: {
-      title: "Notificación de prueba",
-      body: "Esta es una prueba con la API v1",
+      title: "Pack Flowing",
+      body: "Tu paquete está listo para retirar",
     },
 
     data: {

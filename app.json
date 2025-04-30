@@ -10,9 +10,10 @@
     "ios": {
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.slisandro.packflowing",
+      "bundleIdentifier": "com.example.packflowing",
       "infoPlist": {
-        "NSUserNotificationUsageDescription": "Esta app necesita enviarte notificaciones para mantenerte informado." 
+        "NSUserNotificationUsageDescription": "Esta app necesita enviarte notificaciones para mantenerte informado.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -21,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
-      "package": "com.slisandro.packflowing",
+      "package": "com.example.packflowing",
       "permissions": [
         "NOTIFICATIONS"
       ]
@@ -43,7 +44,11 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "9464e22a-ede2-4732-a013-180b3e1d551b"
       }
-    }
+    },
+    "owner": "palacios335"
   }
 }
