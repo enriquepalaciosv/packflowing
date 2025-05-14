@@ -23,6 +23,7 @@ import generateLockerCode from "../../../utils/generateLockedCode";
 import { auth, database } from "../../index";
 import cargarDatos from "../../packages/services/hardcode";
 import { User } from "../../../interfaces/user";
+import { capitalizeString } from "../../../utils/capitalizeString";
 
 interface UserRegister {
   name: string;
@@ -61,8 +62,8 @@ export async function registerUserService(user: UserRegister) {
 
     // Guardar usuario en Firestore
     await setDoc(doc(database, "users", uid), {
-      name,
-      lastName,
+      name: capitalizeString(name),
+      lastName: capitalizeString(lastName),
       email,
       countryCode,
       phone,
@@ -157,5 +158,4 @@ export async function updatePasswordService(newPassword: string) {
     console.error("Error al actualizar en Auth:", error.message);
     Toast.error(getCustomErrorMessage(error.code));
   }
-
 }
