@@ -24,6 +24,7 @@ export interface Paquete {
   contenido?: string;
   total?: number;
   rastreo: Rastreo[];
+  observaciones?: string
 }
 
 export interface Section {
