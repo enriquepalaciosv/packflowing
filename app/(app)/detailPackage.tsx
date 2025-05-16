@@ -113,7 +113,7 @@ const TrackingDetails = () => {
       />
 
       <View style={{ paddingHorizontal: 16 }}>
-        {packageData.observaciones && (
+        {packageData?.observaciones ? (
           <>
             <Text
               variant="titleMedium"
@@ -132,59 +132,59 @@ const TrackingDetails = () => {
               <Text>{packageData.observaciones}</Text>
             </View>
           </>
-        )}
-        {packageData.contenido &&
-          packageData.peso.monto &&
-          packageData.peso.unidad && (
-            <>
-              <Text
-                variant="titleMedium"
-                style={{ marginTop: 16, fontWeight: "bold" }}
-              >
-                Contenido
+        ) : null}
+        {packageData?.contenido &&
+          packageData?.peso?.monto &&
+          packageData?.peso?.unidad ? (
+          <>
+            <Text
+              variant="titleMedium"
+              style={{ marginTop: 16, fontWeight: "bold" }}
+            >
+              Contenido
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 8,
+                marginBottom: 16,
+              }}
+            >
+              <Text>{packageData.contenido}</Text>
+              <Text style={{ fontWeight: "bold" }}>
+                {packageData.peso.monto} {packageData.peso.unidad}
               </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginTop: 8,
-                  marginBottom: 16,
-                }}
-              >
-                <Text>{packageData.contenido}</Text>
-                <Text style={{ fontWeight: "bold" }}>
-                  {packageData.peso.monto} {packageData.peso.unidad}
-                </Text>
-              </View>
-            </>
-          )}
-        {packageData.peso.monto &&
-          packageData.peso.unidad &&
-          packageData.tarifa.moneda &&
-          packageData.tarifa.monto && (
-            <>
-              <Divider />
-              <Text
-                variant="titleMedium"
-                style={{ marginTop: 16, fontWeight: "bold" }}
-              >
-                Total
+            </View>
+          </>
+        ) : null}
+        {packageData?.peso?.monto &&
+          packageData?.peso?.unidad &&
+          packageData?.tarifa?.moneda &&
+          packageData?.tarifa?.monto ? (
+          <>
+            <Divider />
+            <Text
+              variant="titleMedium"
+              style={{ marginTop: 16, fontWeight: "bold" }}
+            >
+              Total
+            </Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginVertical: 8,
+              }}
+            >
+              <Text>Servicio de envío</Text>
+              <Text style={{ fontWeight: "bold" }}>
+                ${packageData.tarifa.moneda}{" "}
+                {packageData.tarifa.monto * packageData.peso.monto}
               </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginVertical: 8,
-                }}
-              >
-                <Text>Servicio de envío</Text>
-                <Text style={{ fontWeight: "bold" }}>
-                  ${packageData.tarifa.moneda}{" "}
-                  {packageData.tarifa.monto * packageData.peso.monto}
-                </Text>
-              </View>
-            </>
-          )}
+            </View>
+          </>
+        ) : null}
       </View>
     </SafeAreaView>
   );
