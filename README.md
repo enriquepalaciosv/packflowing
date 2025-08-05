@@ -299,11 +299,11 @@ El primero es registrar las aplicaciones tanto para iOS como para Android, esto 
 Configuración del Proyecto > General > Tus apps
 ```
 
-Solo importante al registrar la app es el ID del paquete para Apple y Nombre del paquete para Android, ya que se utilizan para configurar el archivo **app.json** y así generar los SDK.
+Solo importante al registrar la app es el ID del paquete para Apple y Nombre del paquete para Android, ya que se utilizan para configurar el archivo **app.config.js** y así generar los SDK.
 
-Una vez registradas las apps, descargar el archivo **google-services.json.** para Android y **GoogleService-Info.plist** para iOS. Estos dos archivos deben ir en la raíz del proyecto (Mismo nivel que **app.json**)
+Una vez registradas las apps, descargar el archivo **google-services.json.** para Android y **GoogleService-Info.plist** para iOS. Estos dos archivos deben ir en la raíz del proyecto (Mismo nivel que **app.config.js**)
 
-El siguiente paso es configurar el archivo **app.json** para generar los prebuild. Se debe ubicar el objecto **ios** y **android**, que debe verse de la siguiente manera: 
+El siguiente paso es configurar el archivo **app.config.js** para generar los prebuild. Se debe ubicar el objecto **ios** y **android**, que debe verse de la siguiente manera: 
 
 ```
 "ios": {
@@ -344,11 +344,23 @@ eas login
 ```
 Este comando te va a pedir email y contraseña (son las credenciales del paso 1)
 
+Una vez logueado, se debe configurar las variables de entorno para los archivos **google-services.json** y **GoogleService-Info.plist**. Ubicarse al mismo nivel que los archivos y ejecutar los siguientes comandos: 
+
+```
+eas env:create --scope project --name GOOGLE_SERVICES_JSON --type file --value ./google-services.json
+
+eas env:create --scope project --name GOOGLE_SERVICES_PLIST --type file --value ./GoogleService-Info.plist
+```
+
+Aparecerá el siguiente mensaje **Select visibility** y se deberá seleccionar **Secret**
+
+El siguiente mensaje pregunta para que profile corresponde, si las credenciales son las mismas para desarrollo y producción, presionar la tecla **A** para seleccionar todos los environments 
+
 Y por último, enlazar el proyecto con EAS con el comando 
 ```
 eas init
 ```
-Este comando agrega al archivo **app.json** la propiedad **projectId** y **owner** y crea el archivo **eas.json**
+Este comando agrega al archivo **app.config.js** la propiedad **projectId** y **owner** y crea el archivo **eas.json**
 
 * El último prerequisito es contar con una cuenta de Developer de Apple
 
