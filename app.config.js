@@ -1,0 +1,58 @@
+export default ({ config
+}) => {
+  return {
+    ...config,
+    "expo": {
+      "name": "packflowing",
+      "slug": "packflowing",
+      "version": "1.0.0",
+      "orientation": "portrait",
+      "scheme": "myapp",
+      "userInterfaceStyle": "automatic",
+      "newArchEnabled": true,
+      "ios": {
+        "supportsTablet": true,
+        "googleServicesFile": process.env.GOOGLE_SERVICES_PLIST || "./GoogleService-Info.plist",
+        "bundleIdentifier": "com.example.packflowing",
+        "infoPlist": {
+          "NSUserNotificationUsageDescription": "Esta app necesita enviarte notificaciones para mantenerte informado.",
+          "ITSAppUsesNonExemptEncryption": false
+        }
+      },
+      "android": {
+        "adaptiveIcon": {
+          "foregroundImage": "./assets/icon.png",
+          "backgroundColor": "#ffffff"
+        },
+        "googleServicesFile": process.env.GOOGLE_SERVICES_JSON || "./google-services.json",
+        "package": "com.example.packflowing",
+        "permissions": [
+          "NOTIFICATIONS"
+        ]
+      },
+      "web": {
+        "bundler": "metro",
+        "output": "static",
+        "favicon": "./assets/icon.png"
+      },
+      "plugins": [
+        "expo-router",
+        "expo-secure-store",
+        "@react-native-firebase/app",
+        "@react-native-firebase/messaging"
+      ],
+      "experiments": {
+        "typedRoutes": true
+      },
+      "extra": {
+        "router": {
+          "origin": false
+        },
+        "eas": {
+          "projectId": "9464e22a-ede2-4732-a013-180b3e1d551b"
+        }
+      },
+      "owner": "palacios335"
+    }
+  }
+};

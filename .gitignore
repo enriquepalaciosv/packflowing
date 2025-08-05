@@ -43,5 +43,7 @@ android
 ios
 
 google-services.json
+/android/app/google-services.json
 GoogleService-Info.plist
+/ios/GoogleService-Info.plist
 packflowing-firebase-adminsdk-fbsvc-89edd6da3e.json
